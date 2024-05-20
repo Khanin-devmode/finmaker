@@ -8,15 +8,21 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final kLoginButtonStyle = const ButtonStyle(
+    fixedSize: WidgetStatePropertyAll(
+      Size(200, 40),
+    ),
+  );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Login'),
       ),
-      body: const Row(
+      body: Row(
         children: [
-          Expanded(
+          const Expanded(
             child: Padding(
               padding: EdgeInsets.all(32.0),
               child: Column(
@@ -30,10 +36,48 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
           ),
-          VerticalDivider(),
+          const VerticalDivider(),
           Expanded(
             child: Column(
-              children: [],
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text('Login'),
+                Form(
+                  child: SizedBox(
+                    width: 360,
+                    child: Column(
+                      children: [
+                        TextFormField(),
+                        TextFormField(),
+                        const SizedBox(height: 20),
+                        ElevatedButton(onPressed: () {}, child: Text('Login'))
+                      ],
+                    ),
+                  ),
+                ),
+                const Divider(
+                  indent: 40,
+                  endIndent: 40,
+                  height: 80,
+                ),
+                ElevatedButton(
+                  style: kLoginButtonStyle,
+                  onPressed: () {},
+                  child: const Text('Apple'),
+                ),
+                const SizedBox(height: 12),
+                ElevatedButton(
+                  style: kLoginButtonStyle,
+                  onPressed: () {},
+                  child: const Text('Facebook'),
+                ),
+                const SizedBox(height: 12),
+                ElevatedButton(
+                  style: kLoginButtonStyle,
+                  onPressed: () {},
+                  child: const Text('Google'),
+                ),
+              ],
             ),
           ),
         ],

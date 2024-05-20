@@ -1,4 +1,4 @@
-import 'package:finmaker/features/login/presentation/login_page.dart';
+import 'package:finmaker/features/auth/presentation/login_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {

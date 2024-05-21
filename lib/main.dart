@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
       ),
       home: BlocProvider(
         create: (context) => AuthCubit()..checkAuthStatus(),
-        child: LoginPage(),
+        child: const LoginPage(),
       ),
     );
   }

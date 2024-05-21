@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "53378654144",
+    "project_id": "finmaker-9cbd4",
+    "storage_bucket": "finmaker-9cbd4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:53378654144:android:e54c5f7b31788155f97225",
+        "android_client_info": {
+          "package_name": "com.example.finmaker"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB5TPPCNKDc0MKDbAMua-vhjM5_fAw7ujU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

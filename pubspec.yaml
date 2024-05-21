@@ -9,8 +9,11 @@ environment:
   sdk: '>=3.3.4 <4.0.0'
 
 dependencies:
+  equatable: ^2.0.5
+  firebase_auth: ^4.19.5
   flutter:
     sdk: flutter
+  flutter_bloc: ^8.1.5
 
 dev_dependencies:
   flutter_test:

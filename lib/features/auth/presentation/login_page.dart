@@ -59,7 +59,8 @@ class _LoginPageState extends State<LoginPage> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text('Welcome, ${state.email}'),
+                              Text('Welcome, ${state.user.email}'),
+                              Text('UID, ${state.user.uid}'),
                               ElevatedButton(
                                 onPressed: () {
                                   context.read<AuthCubit>().signOut();
@@ -140,7 +141,7 @@ class _LoginPageState extends State<LoginPage> {
                       if (state is AuthAuthenticated) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content: Text('Welcome ${state.email}'),
+                            content: Text('Welcome ${state.user.email}'),
                           ),
                         );
                       } else if (state is AuthError) {

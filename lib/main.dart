@@ -1,8 +1,10 @@
 import 'package:finmaker/features/auth/presentation/login_page.dart';
+import 'package:finmaker/features/clients/presentation/clients_page.dart';
 import 'package:finmaker/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import 'features/auth/data/auth_cubit.dart';
 
@@ -19,15 +21,38 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'Flutter Demo',
       theme: ThemeData(
         useMaterial3: true,
       ),
-      home: BlocProvider(
-        create: (context) => AuthCubit()..checkAuthStatus(),
-        child: const LoginPage(),
-      ),
+      // home: BlocProvider(
+      //   create: (context) => AuthCubit()..checkAuthStatus(),
+      //   child: const LoginPage(),
+      // ),
+      routerConfig: _router,
     );
   }
 }
+
+final GoRouter _router = GoRouter(
+  routes: <RouteBase>[
+    GoRoute(
+      path: '/',
+      builder: (BuildContext context, GoRouterState state) {
+        return BlocProvider(
+          create: (context) => AuthCubit()..checkAuthStatus(),
+          child: const LoginPage(),
+        );
+      },
+      routes: <RouteBase>[
+        GoRoute(
+          path: 'clients',
+          builder: (BuildContext context, GoRouterState state) {
+            return const ClientsPage();
+          },
+        ),
+      ],
+    ),
+  ],
+);

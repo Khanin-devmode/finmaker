@@ -2,6 +2,7 @@ import 'package:finmaker/features/auth/data/auth_cubit.dart';
 import 'package:finmaker/features/auth/data/auth_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -49,6 +50,22 @@ class _LoginPageState extends State<LoginPage> {
                 children: [
                   const Text('Login'),
                   BlocConsumer<AuthCubit, AuthState>(
+                    listener: (context, state) {
+                      if (state is AuthAuthenticated) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('Welcome ${state.user.email}'),
+                          ),
+                        );
+                        context.go('/clients');
+                      } else if (state is AuthError) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('Error: ${state.message}'),
+                          ),
+                        );
+                      }
+                    },
                     builder: (context, state) {
                       if (state is AuthInitial || state is AuthLoading) {
                         return const Center(
@@ -135,21 +152,6 @@ class _LoginPageState extends State<LoginPage> {
                         );
                       } else {
                         return const Center(child: CircularProgressIndicator());
-                      }
-                    },
-                    listener: (context, state) {
-                      if (state is AuthAuthenticated) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text('Welcome ${state.user.email}'),
-                          ),
-                        );
-                      } else if (state is AuthError) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text('Error: ${state.message}'),
-                          ),
-                        );
                       }
                     },
                   ),

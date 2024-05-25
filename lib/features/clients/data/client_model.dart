@@ -1,7 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Client {
   Client(
-      this.firstName, this.lastName, this.nickName, this.dateOfBirth, this.age,
-      [this.id, this.creatdBy]);
+      {required this.firstName,
+      required this.lastName,
+      required this.nickName,
+      required this.dateOfBirth,
+      required this.age,
+      this.id,
+      this.creatdBy});
   String firstName;
   String lastName;
   String nickName;
@@ -29,6 +36,24 @@ class Client {
   //     completed: completed ?? this.completed,
   //   );
   // }
+
+  factory Client.fromDocData(Map<String, dynamic> clientData) {
+    Timestamp timestamp = clientData['dateOfBirth'];
+    DateTime dateOfBirth =
+        DateTime.fromMillisecondsSinceEpoch(timestamp.seconds * 1000);
+
+    Client client = Client(
+      firstName: clientData['firstName'],
+      lastName: clientData['lastName'],
+      nickName: clientData['nickName'],
+      dateOfBirth: dateOfBirth,
+      age: clientData['age'],
+      id: clientData['id'],
+      creatdBy: clientData['createdBy'],
+    );
+
+    return client;
+  }
 }
 
 enum MartialStatus { single, married, divorce }

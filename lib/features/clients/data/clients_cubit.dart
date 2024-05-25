@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
+import 'package:finmaker/features/clients/data/client_model.dart';
 import 'dart:async';
 
 import 'package:finmaker/features/clients/data/client_state.dart';
@@ -21,14 +22,17 @@ class ClientCubit extends Cubit<ClientState> {
         .where('createdBy', isEqualTo: userId)
         .snapshots()
         .listen((snapshot) {
-      final clients = snapshot.docs.map((doc) => doc.data()).toList();
+      final clients =
+          snapshot.docs.map((doc) => Client.fromDocData(doc.data())).toList();
       emit(ClientLoaded(clients));
     }, onError: (error) {
       emit(ClientError(error.toString()));
     });
   }
 
-  void addClient(String userId, Map<String, dynamic> clientData) async {
+  void addClient(String userId, Client client) async {
+    final clientData = client.toCollectionObj();
+
     try {
       clientData['createdBy'] = userId;
       await _firestore.collection('clients').add(clientData);

@@ -1,4 +1,5 @@
 import 'package:finmaker/features/auth/presentation/login_page.dart';
+import 'package:finmaker/features/clients/data/client_form_cubit.dart';
 import 'package:finmaker/features/clients/presentation/clients_page.dart';
 import 'package:finmaker/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -22,17 +23,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => AuthCubit()..checkAuthStatus(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => AuthCubit()..checkAuthStatus()),
+        BlocProvider(create: (context) => ClientFormCubit())
+      ],
       child: MaterialApp.router(
         title: 'Flutter Demo',
         theme: ThemeData(
           useMaterial3: true,
         ),
-        // home: BlocProvider(
-        //   create: (context) => AuthCubit()..checkAuthStatus(),
-        //   child: const LoginPage(),
-        // ),
         routerConfig: _router,
       ),
     );
@@ -44,7 +44,7 @@ final GoRouter _router = GoRouter(
     GoRoute(
       path: '/',
       builder: (BuildContext context, GoRouterState state) {
-        return LoginPage();
+        return const LoginPage();
       },
       routes: <RouteBase>[
         GoRoute(

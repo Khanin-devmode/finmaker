@@ -1,7 +1,7 @@
 import 'package:finmaker/features/auth/data/auth_cubit.dart';
 import 'package:finmaker/features/auth/data/auth_state.dart';
+import 'package:finmaker/features/clients/presentation/add_client_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
@@ -23,9 +23,21 @@ class _ClientsPageState extends State<ClientsPage> {
           }
         },
         child: Center(
-          child: ElevatedButton(
-            onPressed: () => context.read<AuthCubit>().signOut(),
-            child: const Text('sign out'),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                child: const Text('Add Client'),
+                onPressed: () {
+                  newClientDialogBuilder(context);
+                },
+              ),
+              const SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () => context.read<AuthCubit>().signOut(),
+                child: const Text('sign out'),
+              ),
+            ],
           ),
         ),
       ),

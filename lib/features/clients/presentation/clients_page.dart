@@ -29,7 +29,7 @@ class _ClientsPageState extends State<ClientsPage> {
               ElevatedButton(
                 child: const Text('Add Client'),
                 onPressed: () {
-                  newClientDialogBuilder(context);
+                  newClientDialog(context);
                 },
               ),
               const SizedBox(height: 20),

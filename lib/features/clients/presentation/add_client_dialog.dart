@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-Future<void> newClientDialogBuilder(BuildContext context) {
+Future<void> newClientDialog(BuildContext context) {
   return showDialog<void>(
     context: context,
     builder: (BuildContext context) {

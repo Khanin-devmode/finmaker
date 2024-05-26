@@ -21,16 +21,19 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        useMaterial3: true,
+    return BlocProvider(
+      create: (context) => AuthCubit()..checkAuthStatus(),
+      child: MaterialApp.router(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          useMaterial3: true,
+        ),
+        // home: BlocProvider(
+        //   create: (context) => AuthCubit()..checkAuthStatus(),
+        //   child: const LoginPage(),
+        // ),
+        routerConfig: _router,
       ),
-      // home: BlocProvider(
-      //   create: (context) => AuthCubit()..checkAuthStatus(),
-      //   child: const LoginPage(),
-      // ),
-      routerConfig: _router,
     );
   }
 }
@@ -40,10 +43,7 @@ final GoRouter _router = GoRouter(
     GoRoute(
       path: '/',
       builder: (BuildContext context, GoRouterState state) {
-        return BlocProvider(
-          create: (context) => AuthCubit()..checkAuthStatus(),
-          child: const LoginPage(),
-        );
+        return LoginPage();
       },
       routes: <RouteBase>[
         GoRoute(

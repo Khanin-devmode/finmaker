@@ -1,4 +1,9 @@
+import 'package:finmaker/features/auth/data/auth_cubit.dart';
+import 'package:finmaker/features/auth/data/auth_state.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class ClientsPage extends StatefulWidget {
   const ClientsPage({super.key});
@@ -10,6 +15,20 @@ class ClientsPage extends StatefulWidget {
 class _ClientsPageState extends State<ClientsPage> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      body: BlocListener<AuthCubit, AuthState>(
+        listener: (context, state) {
+          if (state is AuthUnauthenticated) {
+            context.go('/');
+          }
+        },
+        child: Center(
+          child: ElevatedButton(
+            onPressed: () => context.read<AuthCubit>().signOut(),
+            child: const Text('sign out'),
+          ),
+        ),
+      ),
+    );
   }
 }

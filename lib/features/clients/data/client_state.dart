@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:finmaker/features/clients/data/client_model.dart';
 
 abstract class ClientState extends Equatable {
   const ClientState();
@@ -12,9 +13,9 @@ class ClientInitial extends ClientState {}
 class ClientLoading extends ClientState {}
 
 class ClientLoaded extends ClientState {
-  final List<Map<String, dynamic>> clients;
+  final List<Client> clients;
 
-  ClientLoaded(this.clients);
+  const ClientLoaded(this.clients);
 
   @override
   List<Object> get props => [clients];
@@ -23,7 +24,7 @@ class ClientLoaded extends ClientState {
 class ClientError extends ClientState {
   final String message;
 
-  ClientError(this.message);
+  const ClientError(this.message);
 
   @override
   List<Object> get props => [message];

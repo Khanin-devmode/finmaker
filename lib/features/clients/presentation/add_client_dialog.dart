@@ -1,3 +1,6 @@
+import 'package:finmaker/features/auth/data/auth_cubit.dart';
+import 'package:finmaker/features/auth/data/auth_state.dart';
+import 'package:finmaker/features/clients/data/client_cubit.dart';
 import 'package:finmaker/features/clients/data/client_form_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -24,16 +27,16 @@ class AddClientDialog extends StatelessWidget {
   Widget build(
     BuildContext context,
   ) {
-    return AlertDialog(
-      title: const Text('New Client Form'),
-      content: BlocBuilder<ClientFormCubit, NewClientFormFields>(
-          builder: (context, state) {
-        return Form(
+    return BlocBuilder<ClientFormCubit, NewClientFormFields>(
+        builder: (clientFormContext, clientFormState) {
+      return AlertDialog(
+        title: const Text('New Client Form'),
+        content: Form(
           key: _formKey,
           child: Column(
             children: [
               TextFormField(
-                controller: state.firstName,
+                controller: clientFormState.firstName,
                 decoration: const InputDecoration(
                   labelText: 'Firstname',
                 ),
@@ -45,7 +48,7 @@ class AddClientDialog extends StatelessWidget {
                 },
               ),
               TextFormField(
-                controller: state.lastName,
+                controller: clientFormState.lastName,
                 decoration: const InputDecoration(
                   labelText: 'Lastname',
                 ),
@@ -57,7 +60,7 @@ class AddClientDialog extends StatelessWidget {
                 },
               ),
               TextFormField(
-                controller: state.nickName,
+                controller: clientFormState.nickName,
                 decoration: const InputDecoration(
                   labelText: 'Nickname',
                 ),
@@ -72,7 +75,7 @@ class AddClientDialog extends StatelessWidget {
                 children: [
                   Expanded(
                     child: TextFormField(
-                      controller: state.birthDay,
+                      controller: clientFormState.birthDay,
                       decoration: const InputDecoration(
                         labelText: 'วัน',
                       ),
@@ -94,7 +97,7 @@ class AddClientDialog extends StatelessWidget {
                   const SizedBox(width: 4),
                   Expanded(
                     child: TextFormField(
-                      controller: state.birthMonth,
+                      controller: clientFormState.birthMonth,
                       decoration: const InputDecoration(
                         labelText: 'เดือน',
                       ),
@@ -116,7 +119,7 @@ class AddClientDialog extends StatelessWidget {
                   const SizedBox(width: 4),
                   Expanded(
                     child: TextFormField(
-                      controller: state.birthYear,
+                      controller: clientFormState.birthYear,
                       decoration: const InputDecoration(
                         labelText: 'ปี(พ.ศ.)',
                       ),
@@ -139,7 +142,7 @@ class AddClientDialog extends StatelessWidget {
                 ],
               ),
               TextFormField(
-                controller: state.age,
+                controller: clientFormState.age,
                 decoration: const InputDecoration(
                   labelText: 'อายุ',
                 ),
@@ -170,29 +173,41 @@ class AddClientDialog extends StatelessWidget {
               // )
             ],
           ),
-        );
-      }),
-      actions: <Widget>[
-        TextButton(
-          style: TextButton.styleFrom(
-            textStyle: Theme.of(context).textTheme.labelLarge,
-          ),
-          child: const Text('Reset Form'),
-          onPressed: () {
-            // Navigator.of(context).pop();
-            context.read<ClientFormCubit>().resetForm();
-          },
         ),
-        TextButton(
-          style: TextButton.styleFrom(
-            textStyle: Theme.of(context).textTheme.labelLarge,
+        actions: <Widget>[
+          TextButton(
+            style: TextButton.styleFrom(
+              textStyle: Theme.of(context).textTheme.labelLarge,
+            ),
+            child: const Text('Reset Form'),
+            onPressed: () {
+              // Navigator.of(context).pop();
+              context.read<ClientFormCubit>().resetForm();
+            },
           ),
-          child: const Text('Add'),
-          onPressed: () {
-            if (_formKey.currentState!.validate()) {}
-          },
-        ),
-      ],
-    );
+          BlocBuilder<AuthCubit, AuthState>(
+            builder: (authContext, authState) {
+              return TextButton(
+                style: TextButton.styleFrom(
+                  textStyle: Theme.of(context).textTheme.labelLarge,
+                ),
+                child: const Text('Add'),
+                onPressed: () async {
+                  if (_formKey.currentState!.validate()) {
+                    if (authState is AuthAuthenticated) {
+                      await context.read<ClientCubit>().addClient(
+                          authState.user.uid, clientFormState.toClientObj());
+
+                      Navigator.pop(context);
+                      context.read<ClientFormCubit>().resetForm();
+                    }
+                  }
+                },
+              );
+            },
+          ),
+        ],
+      );
+    });
   }
 }

@@ -29,7 +29,7 @@ class ClientCubit extends Cubit<ClientState> {
     });
   }
 
-  void addClient(String userId, Client client) async {
+  Future<void> addClient(String userId, Client client) async {
     final clientData = client.toCollectionObj();
 
     try {

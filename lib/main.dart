@@ -27,7 +27,8 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => AuthCubit()..checkAuthStatus()),
-        BlocProvider(create: (context) => ClientFormCubit())
+        BlocProvider(create: (context) => ClientFormCubit()),
+        BlocProvider(create: (context) => ClientCubit()),
       ],
       child: MaterialApp.router(
         title: 'Flutter Demo',
@@ -51,8 +52,7 @@ final GoRouter _router = GoRouter(
         GoRoute(
           path: 'clients',
           builder: (BuildContext context, GoRouterState state) {
-            return BlocProvider<ClientCubit>(
-                create: (conetxt) => ClientCubit(), child: const ClientsPage());
+            return const ClientsPage();
           },
         ),
       ],

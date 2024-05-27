@@ -13,6 +13,7 @@ class ClientCubit extends Cubit<ClientState> {
         super(ClientInitial());
 
   void listenToClients(String userId) {
+    print('listening to clients...');
     emit(ClientLoading());
     _subscription?.cancel();
     _subscription = _firestore

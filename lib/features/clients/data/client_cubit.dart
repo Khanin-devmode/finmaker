@@ -41,6 +41,14 @@ class ClientCubit extends Cubit<ClientState> {
     }
   }
 
+  void deleteClient(String clientId) async {
+    try {
+      await _firestore.collection('clients').doc(clientId).delete();
+    } catch (e) {
+      emit(ClientError(e.toString()));
+    }
+  }
+
   @override
   Future<void> close() {
     _subscription?.cancel();

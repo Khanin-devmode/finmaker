@@ -18,7 +18,6 @@ class ClientsPage extends StatefulWidget {
 class _ClientsPageState extends State<ClientsPage> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     final authState = context.read<AuthCubit>().state;
     if (authState is AuthAuthenticated) {
@@ -41,7 +40,16 @@ class _ClientsPageState extends State<ClientsPage> {
             Expanded(
               child: Column(
                 children: [
-                  const Text('Client'),
+                  Row(
+                    children: [
+                      const Text('Client'),
+                      IconButton(
+                          onPressed: () {
+                            newClientDialog(context);
+                          },
+                          icon: Icon(Icons.add))
+                    ],
+                  ),
                   Expanded(
                     child: BlocBuilder<ClientCubit, ClientState>(
                       builder: (context, state) {

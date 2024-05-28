@@ -7,14 +7,14 @@ class Client {
       required this.nickName,
       required this.dateOfBirth,
       required this.age,
-      this.id,
+      this.uid,
       this.creatdBy});
   String firstName;
   String lastName;
   String nickName;
   DateTime dateOfBirth;
   int age;
-  String? id;
+  String? uid;
   String? creatdBy;
 
   Map<String, dynamic> toCollectionObj() {
@@ -37,7 +37,8 @@ class Client {
   //   );
   // }
 
-  factory Client.fromDocData(Map<String, dynamic> clientData) {
+  factory Client.fromDocData(
+      {required String uid, required Map<String, dynamic> clientData}) {
     Timestamp timestamp = clientData['dateOfBirth'];
     DateTime dateOfBirth =
         DateTime.fromMillisecondsSinceEpoch(timestamp.seconds * 1000);
@@ -48,7 +49,7 @@ class Client {
       nickName: clientData['nickName'],
       dateOfBirth: dateOfBirth,
       age: clientData['age'],
-      id: clientData['id'],
+      uid: uid,
       creatdBy: clientData['createdBy'],
     );
 

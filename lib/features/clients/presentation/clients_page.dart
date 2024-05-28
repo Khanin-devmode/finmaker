@@ -121,9 +121,9 @@ class ClientCard extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 8.0),
-            const Text(
-              'Email:',
-              style: TextStyle(fontSize: 16),
+            Text(
+              'id: ${client.uid}',
+              style: const TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 8.0),
             const Text(

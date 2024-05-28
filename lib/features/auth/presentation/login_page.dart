@@ -18,8 +18,8 @@ class _LoginPageState extends State<LoginPage> {
     ),
   );
 
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
+  final _emailController = TextEditingController(text: 'khaninz3779@gmail.com');
+  final _passwordController = TextEditingController(text: '12345678');
 
   @override
   void initState() {

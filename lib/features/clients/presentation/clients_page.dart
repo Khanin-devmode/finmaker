@@ -1,5 +1,6 @@
 import 'package:finmaker/features/auth/data/auth_cubit.dart';
 import 'package:finmaker/features/auth/data/auth_state.dart';
+import 'package:finmaker/features/clients/data/client_model.dart';
 import 'package:finmaker/features/clients/data/client_state.dart';
 import 'package:finmaker/features/clients/data/client_cubit.dart';
 import 'package:finmaker/features/clients/presentation/add_client_dialog.dart';
@@ -40,40 +41,94 @@ class _ClientsPageState extends State<ClientsPage> {
             Expanded(
               child: Column(
                 children: [
-                  Row(
-                    children: [
-                      const Text('Client'),
-                      IconButton(
-                          onPressed: () {
-                            newClientDialog(context);
-                          },
-                          icon: Icon(Icons.add))
-                    ],
+                  SizedBox(
+                    height: 60,
+                    child: Center(
+                      child: SizedBox(
+                        width: 600,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            children: [
+                              const Text('Client'),
+                              IconButton(
+                                  onPressed: () {
+                                    newClientDialog(context);
+                                  },
+                                  icon: const Icon(Icons.add))
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
                   Expanded(
-                    child: BlocBuilder<ClientCubit, ClientState>(
-                      builder: (context, state) {
-                        if (state is ClientLoaded) {
-                          return ListView.builder(
-                            itemCount: state.clients.length,
-                            itemBuilder: (context, index) {
-                              return ListTile(
-                                title: Text(state.clients[index].firstName),
+                    child: Center(
+                      child: SizedBox(
+                        width: 600,
+                        child: BlocBuilder<ClientCubit, ClientState>(
+                          builder: (context, state) {
+                            if (state is ClientLoaded) {
+                              return ListView.builder(
+                                itemCount: state.clients.length,
+                                itemBuilder: (context, index) {
+                                  final client = state.clients[index];
+                                  return ClientCard(client: client);
+                                },
                               );
-                            },
-                          );
-                        } else if (state is ClientError) {
-                          return Center(child: Text(state.message));
-                        } else {
-                          return const Center(
-                            child: Text('Got no client state'),
-                          );
-                        }
-                      },
+                            } else if (state is ClientError) {
+                              return Center(child: Text(state.message));
+                            } else {
+                              return const Center(
+                                child: Text('Got no client state'),
+                              );
+                            }
+                          },
+                        ),
+                      ),
                     ),
                   ),
                 ],
               ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class ClientCard extends StatelessWidget {
+  final Client client;
+
+  const ClientCard({super.key, required this.client});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 2.0,
+      margin: const EdgeInsets.all(8.0),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              client.firstName,
+              style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 8.0),
+            const Text(
+              'Email:',
+              style: TextStyle(fontSize: 16),
+            ),
+            const SizedBox(height: 8.0),
+            const Text(
+              'Phone: ',
+              style: TextStyle(fontSize: 16),
             ),
           ],
         ),

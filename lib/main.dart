@@ -1,6 +1,7 @@
 import 'package:finmaker/features/auth/presentation/login_page.dart';
 import 'package:finmaker/features/clients/data/client_form_cubit.dart';
 import 'package:finmaker/features/clients/data/client_cubit.dart';
+import 'package:finmaker/features/clients/presentation/client_detail_page.dart';
 import 'package:finmaker/features/clients/presentation/clients_page.dart';
 import 'package:finmaker/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -53,6 +54,16 @@ final GoRouter _router = GoRouter(
           path: 'clients',
           builder: (BuildContext context, GoRouterState state) {
             return const ClientsPage();
+          },
+        ),
+        GoRoute(
+          path: 'client-detail/:id',
+          builder: (BuildContext context, GoRouterState state) {
+            final id = state.pathParameters['id'];
+
+            return ClientDetailPage(
+              clientId: id!,
+            );
           },
         ),
       ],

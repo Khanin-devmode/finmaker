@@ -31,12 +31,16 @@ class PolicyCubit extends Cubit<PolicyState> {
     });
   }
 
-  Future<void> addClient(String userId, Client client) async {
-    final clientData = client.toCollectionObj();
+  Future<void> addPolicy(String clientId, Policy policy) async {
+    final policyData = policy.toCollectionObj();
 
     try {
-      clientData['createdBy'] = userId;
-      await _firestore.collection('clients').add(clientData);
+      policyData['createdBy'] = clientId;
+      await _firestore
+          .collection('clients')
+          .doc(clientId)
+          .collection('policies')
+          .add(policyData);
     } catch (e) {
       emit(PolicyError(e.toString()));
     }

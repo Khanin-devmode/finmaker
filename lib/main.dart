@@ -3,6 +3,7 @@ import 'package:finmaker/features/clients/data/client_form_cubit.dart';
 import 'package:finmaker/features/clients/data/client_cubit.dart';
 import 'package:finmaker/features/clients/presentation/client_detail_page.dart';
 import 'package:finmaker/features/clients/presentation/clients_page.dart';
+import 'package:finmaker/features/policies/data/policy_cubit.dart';
 import 'package:finmaker/features/policies/data/policy_form_cubit.dart';
 import 'package:finmaker/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -32,6 +33,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => ClientFormCubit()),
         BlocProvider(create: (context) => ClientCubit()),
         BlocProvider(create: (context) => PolicyFormCubit()),
+        BlocProvider(create: (context) => PolicyCubit()),
       ],
       child: MaterialApp.router(
         title: 'Flutter Demo',

@@ -61,7 +61,7 @@ class _ClientDetailPageState extends State<ClientDetailPage> {
                         icon: const Icon(Icons.add),
                       )
                     ],
-                  )
+                  ),
                 ],
               ),
             ),
@@ -89,10 +89,6 @@ class AddPolicyDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final newPolicyForm = ref.watch(newPolicyFormProvider);
-    // final policyService = ref.watch(policyServiceProvider);
-    // final selectedClient = ref.watch(selectedClientProvider);
-
     return BlocBuilder<PolicyFormCubit, NewPolicyForms>(
         builder: (context, state) {
       return AlertDialog(

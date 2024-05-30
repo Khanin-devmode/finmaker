@@ -79,7 +79,8 @@ class _ClientDetailPageState extends State<ClientDetailPage> {
                             itemCount: state.policies.length,
                             itemBuilder: (context, index) {
                               final policy = state.policies[index];
-                              return Text(policy.policyName);
+                              print(policy.id);
+                              return Text(policy.policyName + ' ' + policy.id!);
                               // return Text(policy.id!);
                             },
                           );

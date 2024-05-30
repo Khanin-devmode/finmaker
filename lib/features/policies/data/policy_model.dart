@@ -52,6 +52,7 @@ class Policy {
         DateTime.fromMillisecondsSinceEpoch(endTimestamp.seconds * 1000);
 
     Policy policy = Policy(
+      id: uid,
       policyName: policyData['policyName'],
       policyNumber: policyData['policyNumber'],
       policyCompany: policyData['policyCompany'],

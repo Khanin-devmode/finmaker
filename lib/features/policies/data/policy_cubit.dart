@@ -14,12 +14,13 @@ class PolicyCubit extends Cubit<PolicyState> {
         super(PolicyInitial());
 
   void listenToPolicies(String clientId) {
-    print('listening to clients...');
+    print('listening to policies...');
     emit(PolicyLoading());
     _subscription?.cancel();
     _subscription = _firestore
         .collection('clients')
-        .where('createdBy', isEqualTo: clientId)
+        .doc(clientId)
+        .collection('policies')
         .snapshots()
         .listen((snapshot) {
       final policies = snapshot.docs
@@ -35,7 +36,6 @@ class PolicyCubit extends Cubit<PolicyState> {
     final policyData = policy.toCollectionObj();
 
     try {
-      policyData['createdBy'] = clientId;
       await _firestore
           .collection('clients')
           .doc(clientId)
@@ -46,7 +46,7 @@ class PolicyCubit extends Cubit<PolicyState> {
     }
   }
 
-  void deleteClient(String clientId) async {
+  void deletePolicy(String clientId) async {
     try {
       await _firestore.collection('clients').doc(clientId).delete();
     } catch (e) {

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class Policy {
@@ -38,6 +39,29 @@ class Policy {
       'policyCoverage': policyCoverage,
       'policyCost': policyCost,
     };
+  }
+
+  factory Policy.fromDocData(
+      {required String uid, required Map<String, dynamic> policyData}) {
+    Timestamp startTimestamp = policyData['startDate'];
+    DateTime startDate =
+        DateTime.fromMillisecondsSinceEpoch(startTimestamp.seconds * 1000);
+
+    Timestamp endTimestamp = policyData['startDate'];
+    DateTime endDate =
+        DateTime.fromMillisecondsSinceEpoch(endTimestamp.seconds * 1000);
+
+    Policy policy = Policy(
+      policyName: policyData['policyName'],
+      policyNumber: policyData['policyNumber'],
+      policyCompany: policyData['policyCompany'],
+      policyCoverage: policyData['policyCoverage'],
+      policyCost: policyData['policyCost'],
+      startDate: startDate,
+      endDate: endDate,
+    );
+
+    return policy;
   }
 }
 

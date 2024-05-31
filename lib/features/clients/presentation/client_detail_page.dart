@@ -106,26 +106,26 @@ class _ClientDetailPageState extends State<ClientDetailPage> {
 class PolicyCard extends StatelessWidget {
   final Policy policy;
 
-  PolicyCard({required this.policy});
+  const PolicyCard({super.key, required this.policy});
 
   @override
   Widget build(BuildContext context) {
     return Card(
       elevation: 4.0,
-      margin: EdgeInsets.all(10.0),
+      margin: const EdgeInsets.all(10.0),
       child: Padding(
-        padding: EdgeInsets.all(10.0),
+        padding: const EdgeInsets.all(10.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               policy.policyName,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 18.0,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 8.0),
+            const SizedBox(height: 8.0),
             Text(
               policy.policyNumber,
               style: TextStyle(
@@ -133,7 +133,7 @@ class PolicyCard extends StatelessWidget {
                 color: Colors.grey[600],
               ),
             ),
-            SizedBox(height: 8.0),
+            const SizedBox(height: 8.0),
             Text(
               'Policy ID: ${policy.id}',
               style: TextStyle(

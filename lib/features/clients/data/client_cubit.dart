@@ -31,7 +31,7 @@ class ClientCubit extends Cubit<ClientState> {
   }
 
   Future<void> addClient(String userId, Client client) async {
-    final clientData = client.toCollectionObj();
+    final clientData = client.toMap();
 
     try {
       clientData['createdBy'] = userId;

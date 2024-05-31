@@ -17,7 +17,7 @@ class Client {
   String? uid;
   String? creatdBy;
 
-  Map<String, dynamic> toCollectionObj() {
+  Map<String, dynamic> toMap() {
     return {
       'firstName': firstName,
       'lastName': lastName,

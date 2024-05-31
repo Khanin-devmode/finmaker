@@ -8,13 +8,20 @@ import 'package:finmaker/features/policies/data/policy_state.dart';
 class PolicyCubit extends Cubit<PolicyState> {
   final FirebaseFirestore _firestore;
   StreamSubscription? _subscription;
+  String? _currentClientId;
 
   PolicyCubit({FirebaseFirestore? firestore})
       : _firestore = firestore ?? FirebaseFirestore.instance,
         super(PolicyInitial());
 
   void listenToPolicies(String clientId) {
+    if (_currentClientId == clientId) {
+      return; // Client ID has not changed, no need to re-subscribe
+    }
+
+    _currentClientId = clientId;
     print('listening to policies...');
+
     emit(PolicyLoading());
     _subscription?.cancel();
     _subscription = _firestore

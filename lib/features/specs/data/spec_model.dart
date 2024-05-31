@@ -5,32 +5,43 @@ abstract class Spec extends Equatable {
   List<Object> get props => [];
 }
 
-class BenefitsSpec extends Spec {
-  BenefitsSpec();
+class RegularSpec extends Spec {
+  RegularSpec();
 
   Map<String, dynamic> toMap() {
     return {};
   }
 
-  factory BenefitsSpec.fromDocData(
+  factory RegularSpec.fromDocData(
       {required String uid, required Map<String, dynamic> specData}) {
-    BenefitsSpec spec = BenefitsSpec();
+    RegularSpec spec = RegularSpec();
 
     return spec;
   }
 }
 
-class CashExpense extends Spec {
-  CashExpense();
+class CustomSpec extends Spec {
+  CustomSpec();
 
   Map<String, dynamic> toMap() {
     return {};
   }
 
-  factory CashExpense.fromDocData(
+  factory CustomSpec.fromDocData(
       {required String uid, required Map<String, dynamic> specData}) {
-    CashExpense spec = CashExpense();
+    CustomSpec spec = CustomSpec();
 
     return spec;
   }
 }
+
+const specCode = {
+  'a001': RegularSpec,
+  'a002': CustomSpec,
+};
+
+const specGroup = {
+  //e.g. Cash Income, Expense, CI coverage, default
+  0: 'Yearly Income',
+  1: 'Yearly Expense'
+};

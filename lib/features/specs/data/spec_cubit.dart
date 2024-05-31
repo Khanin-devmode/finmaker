@@ -32,7 +32,7 @@ class SpecCubit extends Cubit<SpecState> {
         .snapshots()
         .listen((snapshot) {
       final specs = snapshot.docs.map((doc) {
-        return BenefitsSpec.fromDocData(uid: doc.id, specData: doc.data());
+        return RegularSpec.fromDocData(uid: doc.id, specData: doc.data());
       }).toList();
       emit(SpecLoaded(specs));
     }, onError: (error) {
@@ -44,7 +44,7 @@ class SpecCubit extends Cubit<SpecState> {
       String clientId, String policyId, Spec spec) async {
     late Map<String, dynamic> specData;
 
-    if (spec is BenefitsSpec) {
+    if (spec is RegularSpec) {
       specData = spec.toMap();
     }
 

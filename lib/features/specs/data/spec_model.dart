@@ -36,12 +36,12 @@ class CustomSpec extends Spec {
 }
 
 const specCode = {
-  'a001': RegularSpec,
-  'a002': CustomSpec,
+  'aa': RegularSpec,
+  'ab': CustomSpec,
 };
 
 const specGroup = {
   //e.g. Cash Income, Expense, CI coverage, default
-  0: 'Yearly Income',
-  1: 'Yearly Expense'
+  '101': 'Yearly Income',
+  '001': 'Yearly Expense'
 };

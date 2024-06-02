@@ -75,6 +75,7 @@ class _ClientDetailPageState extends State<ClientDetailPage> {
                   Expanded(
                     child: BlocBuilder<PolicyCubit, PolicyState>(
                       builder: (context, state) {
+                        print(state);
                         if (state is PolicyLoaded) {
                           return ListView.builder(
                             itemCount: state.policies.length,

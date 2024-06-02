@@ -1,7 +1,6 @@
 import 'package:finmaker/features/common/widgets/side_bar.dart';
 import 'package:finmaker/features/policies/data/policy_cubit.dart';
 import 'package:finmaker/features/policies/data/policy_model.dart';
-import 'package:finmaker/features/policies/data/policy_state.dart';
 import 'package:finmaker/features/policies/presentation/add_policy_dialog.dart';
 import 'package:finmaker/features/specs/data/spec_cubit.dart';
 import 'package:finmaker/features/specs/data/spec_state.dart';
@@ -9,9 +8,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PolicyDetailPage extends StatefulWidget {
-  const PolicyDetailPage({super.key, required this.policyId});
+  const PolicyDetailPage(
+      {super.key, required this.clientId, required this.policyId});
 
   final String policyId;
+  final String clientId;
 
   @override
   State<PolicyDetailPage> createState() => _PolicyDetailPageState();
@@ -22,7 +23,7 @@ class _PolicyDetailPageState extends State<PolicyDetailPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    context.read<PolicyCubit>().listenToPolicies(widget.policyId);
+    context.read<SpecCubit>().listenToSpecs(widget.clientId, widget.policyId);
   }
 
   @override
@@ -84,7 +85,20 @@ class _PolicyDetailPageState extends State<PolicyDetailPage> {
                           //     return PolicySpecCard(policy: policy);
                           //   },
                           // );
-                          return const SizedBox();
+                          return Column(
+                            children: [
+                              Row(
+                                children: [
+                                  const Expanded(child: Divider()),
+                                  IconButton(
+                                    onPressed: () {},
+                                    icon: const Icon(Icons.add),
+                                  ),
+                                  const Expanded(child: Divider())
+                                ],
+                              )
+                            ],
+                          );
                         } else if (state is SpecError) {
                           return Center(child: Text(state.message));
                         } else {
@@ -100,54 +114,6 @@ class _PolicyDetailPageState extends State<PolicyDetailPage> {
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class PolicySpecCard extends StatelessWidget {
-  final Policy policy;
-
-  const PolicySpecCard({super.key, required this.policy});
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: 50,
-      child: Card(
-        elevation: 4.0,
-        margin: const EdgeInsets.all(10.0),
-        child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                policy.policyName,
-                style: const TextStyle(
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 8.0),
-              Text(
-                policy.policyNumber,
-                style: TextStyle(
-                  fontSize: 16.0,
-                  color: Colors.grey[600],
-                ),
-              ),
-              const SizedBox(height: 8.0),
-              Text(
-                'Policy ID: ${policy.id}',
-                style: TextStyle(
-                  fontSize: 14.0,
-                  color: Colors.grey[700],
-                ),
-              ),
-            ],
-          ),
-        ),
       ),
     );
   }

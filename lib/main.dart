@@ -5,6 +5,8 @@ import 'package:finmaker/features/clients/presentation/client_detail_page.dart';
 import 'package:finmaker/features/clients/presentation/clients_page.dart';
 import 'package:finmaker/features/policies/data/policy_cubit.dart';
 import 'package:finmaker/features/policies/data/policy_form_cubit.dart';
+import 'package:finmaker/features/policies/presentation/policy_detail_page.dart';
+import 'package:finmaker/features/specs/data/spec_cubit.dart';
 import 'package:finmaker/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -34,6 +36,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => ClientCubit()),
         BlocProvider(create: (context) => PolicyFormCubit()),
         BlocProvider(create: (context) => PolicyCubit()),
+        BlocProvider(create: (context) => SpecCubit()),
       ],
       child: MaterialApp.router(
         title: 'Flutter Demo',
@@ -67,6 +70,18 @@ final GoRouter _router = GoRouter(
 
             return ClientDetailPage(
               clientId: id!,
+            );
+          },
+        ),
+        GoRoute(
+          path: 'policy-detail/:clientId/:policyId',
+          builder: (BuildContext context, GoRouterState state) {
+            final clientId = state.pathParameters['clientId'];
+            final policyId = state.pathParameters['policyId'];
+
+            return PolicyDetailPage(
+              clientId: clientId!,
+              policyId: policyId!,
             );
           },
         ),

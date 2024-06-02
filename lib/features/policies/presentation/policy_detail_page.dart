@@ -1,6 +1,4 @@
 import 'package:finmaker/features/common/widgets/side_bar.dart';
-import 'package:finmaker/features/policies/data/policy_cubit.dart';
-import 'package:finmaker/features/policies/data/policy_model.dart';
 import 'package:finmaker/features/policies/presentation/add_policy_dialog.dart';
 import 'package:finmaker/features/specs/data/spec_cubit.dart';
 import 'package:finmaker/features/specs/data/spec_state.dart';

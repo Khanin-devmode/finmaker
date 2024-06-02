@@ -1,4 +1,7 @@
 import 'package:finmaker/features/common/widgets/side_bar.dart';
+import 'package:finmaker/features/policies/data/policy_cubit.dart';
+import 'package:finmaker/features/policies/data/policy_model.dart';
+import 'package:finmaker/features/policies/data/policy_state.dart';
 import 'package:finmaker/features/policies/presentation/add_policy_dialog.dart';
 import 'package:finmaker/features/specs/data/spec_cubit.dart';
 import 'package:finmaker/features/specs/data/spec_state.dart';
@@ -17,10 +20,16 @@ class PolicyDetailPage extends StatefulWidget {
 }
 
 class _PolicyDetailPageState extends State<PolicyDetailPage> {
+  late Policy selectedPolicy;
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+    final state = context.read<PolicyCubit>().state;
+    if (state is PolicyLoaded) {
+      selectedPolicy =
+          state.policies.firstWhere((policy) => policy.id == widget.policyId);
+    }
     context.read<SpecCubit>().listenToSpecs(widget.clientId, widget.policyId);
   }
 
@@ -45,7 +54,7 @@ class _PolicyDetailPageState extends State<PolicyDetailPage> {
                 ),
                 Expanded(
                   child: Center(
-                    child: Text(widget.policyId),
+                    child: Text(selectedPolicy.id as String),
                   ),
                 ),
               ],

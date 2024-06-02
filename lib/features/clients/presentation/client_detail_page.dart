@@ -1,6 +1,5 @@
 import 'package:finmaker/features/common/widgets/side_bar.dart';
 import 'package:finmaker/features/policies/data/policy_cubit.dart';
-import 'package:finmaker/features/policies/data/policy_model.dart';
 import 'package:finmaker/features/policies/data/policy_state.dart';
 import 'package:finmaker/features/policies/presentation/add_policy_dialog.dart';
 import 'package:finmaker/features/policies/presentation/policy_card.dart';
@@ -19,7 +18,6 @@ class ClientDetailPage extends StatefulWidget {
 class _ClientDetailPageState extends State<ClientDetailPage> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     context.read<PolicyCubit>().listenToPolicies(widget.clientId);
   }
@@ -75,7 +73,6 @@ class _ClientDetailPageState extends State<ClientDetailPage> {
                   Expanded(
                     child: BlocBuilder<PolicyCubit, PolicyState>(
                       builder: (context, state) {
-                        print(state);
                         if (state is PolicyLoaded) {
                           return ListView.builder(
                             itemCount: state.policies.length,

@@ -1,9 +1,6 @@
-import 'package:finmaker/features/auth/data/auth_cubit.dart';
-import 'package:finmaker/features/auth/data/auth_state.dart';
 import 'package:finmaker/features/policies/data/policy_cubit.dart';
 import 'package:finmaker/features/policies/data/policy_form_cubit.dart';
 import 'package:finmaker/features/policies/data/policy_model.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -299,9 +296,8 @@ class _AddPolicyDialogState extends State<AddPolicyDialog> {
                 //   Navigator.pop(context);
                 // });
 
-                await context
-                    .read<PolicyCubit>()
-                    .addPolicy(widget.clientId, state.toPolicyObj());
+                await context.read<PolicyCubit>().addPolicy(widget.clientId,
+                    state.toPolicyObj(clienId: widget.clientId));
                 Navigator.pop(context);
               }
             },

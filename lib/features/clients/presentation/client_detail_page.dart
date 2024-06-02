@@ -3,6 +3,7 @@ import 'package:finmaker/features/policies/data/policy_cubit.dart';
 import 'package:finmaker/features/policies/data/policy_model.dart';
 import 'package:finmaker/features/policies/data/policy_state.dart';
 import 'package:finmaker/features/policies/presentation/add_policy_dialog.dart';
+import 'package:finmaker/features/policies/presentation/policy_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -98,51 +99,6 @@ class _ClientDetailPageState extends State<ClientDetailPage> {
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class PolicyCard extends StatelessWidget {
-  final Policy policy;
-
-  const PolicyCard({super.key, required this.policy});
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      elevation: 4.0,
-      margin: const EdgeInsets.all(10.0),
-      child: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              policy.policyName,
-              style: const TextStyle(
-                fontSize: 18.0,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 8.0),
-            Text(
-              policy.policyNumber,
-              style: TextStyle(
-                fontSize: 16.0,
-                color: Colors.grey[600],
-              ),
-            ),
-            const SizedBox(height: 8.0),
-            Text(
-              'Policy ID: ${policy.id}',
-              style: TextStyle(
-                fontSize: 14.0,
-                color: Colors.grey[700],
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }

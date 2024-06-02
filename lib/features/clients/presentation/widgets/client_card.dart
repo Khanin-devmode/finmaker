@@ -1,5 +1,6 @@
 import 'package:finmaker/features/clients/data/client_cubit.dart';
 import 'package:finmaker/features/clients/data/client_model.dart';
+import 'package:finmaker/features/common/widgets/confirm_delete_diaglog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -34,11 +35,13 @@ class ClientCard extends StatelessWidget {
                   ),
                   const Spacer(),
                   IconButton(
-                    icon: Icon(Icons.delete),
+                    icon: const Icon(Icons.delete),
                     onPressed: () async {
-                      final isConfirm =
-                          await showDeleteConfirmationDialog(context, client);
-                      if (isConfirm != null && isConfirm) {
+                      final isConfirm = await confirmDeleteDialog(
+                        context,
+                        title: 'Confirm delete this client?',
+                      );
+                      if (isConfirm == true && context.mounted) {
                         context
                             .read<ClientCubit>()
                             .deleteClient(client.uid as String);
@@ -63,31 +66,4 @@ class ClientCard extends StatelessWidget {
       ),
     );
   }
-}
-
-Future<bool?> showDeleteConfirmationDialog(
-    BuildContext context, Client client) {
-  return showDialog<bool>(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: Text('Delete Client'),
-        content: Text('Are you sure you want to delete this client?'),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop(false); // Return false
-            },
-            child: Text('Cancel'),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop(true); // Return true
-            },
-            child: Text('Delete'),
-          ),
-        ],
-      );
-    },
-  );
 }

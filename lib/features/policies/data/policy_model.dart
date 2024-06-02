@@ -14,7 +14,7 @@ class Policy {
     required this.policyCoverage,
     required this.policyCost,
     this.id,
-    this.clientId,
+    required this.clientId,
   });
 
   final String policyNumber;
@@ -25,7 +25,7 @@ class Policy {
   final double policyCoverage;
   final double policyCost;
   final String? id;
-  final String? clientId;
+  final String clientId;
   final List<Map<int, int>> protections = [];
   final List<CashBenefits> cashIncomes = [];
 
@@ -38,6 +38,7 @@ class Policy {
       'endDate': endDate,
       'policyCoverage': policyCoverage,
       'policyCost': policyCost,
+      'clienId': clientId
     };
   }
 
@@ -58,6 +59,7 @@ class Policy {
       policyCompany: policyData['policyCompany'],
       policyCoverage: policyData['policyCoverage'],
       policyCost: policyData['policyCost'],
+      clientId: policyData['clienId'],
       startDate: startDate,
       endDate: endDate,
     );
@@ -121,17 +123,17 @@ class NewPolicyForms {
   TextEditingController coverage;
   TextEditingController cost;
 
-  Policy toPolicyObj() {
+  Policy toPolicyObj({required String clienId}) {
     return Policy(
-      policyNumber: number.text,
-      policyName: name.text,
-      policyCompany: company.text,
-      startDate: DateTime.utc(int.parse(startYear.text) - 543,
-          int.parse(startMonth.text), int.parse(startDay.text)),
-      endDate: DateTime.utc(int.parse(endYear.text) - 543,
-          int.parse(endMonth.text), int.parse(endDay.text)),
-      policyCoverage: double.parse(coverage.text),
-      policyCost: double.parse(cost.text),
-    );
+        policyNumber: number.text,
+        policyName: name.text,
+        policyCompany: company.text,
+        startDate: DateTime.utc(int.parse(startYear.text) - 543,
+            int.parse(startMonth.text), int.parse(startDay.text)),
+        endDate: DateTime.utc(int.parse(endYear.text) - 543,
+            int.parse(endMonth.text), int.parse(endDay.text)),
+        policyCoverage: double.parse(coverage.text),
+        policyCost: double.parse(cost.text),
+        clientId: clienId);
   }
 }

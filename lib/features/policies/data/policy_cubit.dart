@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:finmaker/features/clients/data/client_model.dart';
 import 'package:finmaker/features/policies/data/policy_model.dart';
 import 'dart:async';
 import 'package:finmaker/features/policies/data/policy_state.dart';
@@ -53,9 +52,14 @@ class PolicyCubit extends Cubit<PolicyState> {
     }
   }
 
-  void deletePolicy(String clientId) async {
+  void deletePolicy(String clientId, String policyId) async {
     try {
-      await _firestore.collection('clients').doc(clientId).delete();
+      await _firestore
+          .collection('clients')
+          .doc(clientId)
+          .collection('policies')
+          .doc(policyId)
+          .delete();
     } catch (e) {
       emit(PolicyError(e.toString()));
     }

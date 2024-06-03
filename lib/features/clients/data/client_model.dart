@@ -1,19 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Client {
-  Client(
-      {required this.firstName,
-      required this.lastName,
-      required this.nickName,
-      required this.dateOfBirth,
-      required this.age,
-      this.uid,
-      this.creatdBy});
+  Client({
+    required this.firstName,
+    required this.lastName,
+    required this.nickName,
+    required this.dateOfBirth,
+    this.uid,
+    this.creatdBy,
+  });
   String firstName;
   String lastName;
   String nickName;
   DateTime dateOfBirth;
-  int age;
   String? uid;
   String? creatdBy;
 
@@ -23,11 +22,10 @@ class Client {
       'lastName': lastName,
       'nickName': nickName,
       'dateOfBirth': dateOfBirth,
-      'age': age,
     };
   }
 
-  int get calcAge => DateTime.now().year - dateOfBirth.year;
+  int get age => DateTime.now().year - dateOfBirth.year;
 
   // Client copyWith({String? id, String? description, bool? completed}) {
   //   return Client(
@@ -48,7 +46,6 @@ class Client {
       lastName: clientData['lastName'],
       nickName: clientData['nickName'],
       dateOfBirth: dateOfBirth,
-      age: clientData['age'],
       uid: uid,
       creatdBy: clientData['createdBy'],
     );

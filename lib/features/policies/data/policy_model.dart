@@ -1,10 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:finmaker/features/specs/data/spec_model.dart';
 import 'package:flutter/material.dart';
 
 class Policy {
-  // Policy(this.policyNumber, this.policyName, this.policyCompany, this.startDate,
-  //     this.endDate, this.policyCoverage, this.policyCost,
-  //     [this.id, this.clientId]);
   Policy({
     required this.policyNumber,
     required this.policyName,
@@ -15,6 +13,8 @@ class Policy {
     required this.policyCost,
     this.id,
     required this.clientId,
+    this.specs = const [],
+    this.specGroups = const [],
   });
 
   final String policyNumber;
@@ -26,10 +26,36 @@ class Policy {
   final double policyCost;
   final String? id;
   final String clientId;
-  final List<Map<int, int>> protections = [];
-  final List<CashBenefits> cashIncomes = [];
+  final List<Spec> specs;
+  final List<String> specGroups;
 
-  Map<String, dynamic> toCollectionObj() {
+  Policy copyWith({
+    String? policyNumber,
+    String? policyName,
+    String? policyCompany,
+    DateTime? startDate,
+    DateTime? endDate,
+    double? policyCoverage,
+    double? policyCost,
+    String? id,
+    String? clientId,
+    List<Spec>? specs,
+  }) {
+    return Policy(
+      policyNumber: policyNumber ?? this.policyNumber,
+      policyName: policyName ?? this.policyName,
+      policyCompany: policyCompany ?? this.policyCompany,
+      startDate: startDate ?? this.startDate,
+      endDate: endDate ?? this.endDate,
+      policyCoverage: policyCoverage ?? this.policyCoverage,
+      policyCost: policyCost ?? this.policyCost,
+      id: id ?? this.id,
+      clientId: clientId ?? this.clientId,
+      specs: specs ?? this.specs,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
     return {
       'policyNumber': policyNumber,
       'policyName': policyName,
@@ -66,22 +92,6 @@ class Policy {
 
     return policy;
   }
-}
-
-class Protection {
-  Protection(this.name, this.protectionsYears, this.protectionAmount);
-
-  String name;
-  List<int> protectionsYears;
-  double protectionAmount;
-}
-
-class CashBenefits {
-  CashBenefits(this.name, this.cashDueMonths, this.cashAmount);
-
-  String name;
-  List<int> cashDueMonths;
-  double cashAmount;
 }
 
 class NewPolicyForms {

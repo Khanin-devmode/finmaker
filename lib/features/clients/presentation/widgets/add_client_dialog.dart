@@ -141,25 +141,25 @@ class AddClientDialog extends StatelessWidget {
                   ),
                 ],
               ),
-              TextFormField(
-                controller: clientFormState.age,
-                decoration: const InputDecoration(
-                  labelText: 'อายุ',
-                ),
-                inputFormatters: [
-                  FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-                  LengthLimitingTextInputFormatter(2)
-                ],
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter some text';
-                  }
-                  if (int.parse(value) > 99 || int.parse(value) < 1) {
-                    return 'Please enter date range between 1-99';
-                  }
-                  return null;
-                },
-              ),
+              // TextFormField(
+              //   controller: clientFormState.age,
+              //   decoration: const InputDecoration(
+              //     labelText: 'อายุ',
+              //   ),
+              //   inputFormatters: [
+              //     FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+              //     LengthLimitingTextInputFormatter(2)
+              //   ],
+              //   validator: (value) {
+              //     if (value == null || value.isEmpty) {
+              //       return 'Please enter some text';
+              //     }
+              //     if (int.parse(value) > 99 || int.parse(value) < 1) {
+              //       return 'Please enter date range between 1-99';
+              //     }
+              //     return null;
+              //   },
+              // ),
               // DropdownButtonFormField(
               //   items: MartialStatus.values.map((MartialStatus martialStatus) {
               //     return DropdownMenuItem<MartialStatus>(

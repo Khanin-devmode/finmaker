@@ -39,7 +39,7 @@ class PolicyCubit extends Cubit<PolicyState> {
   }
 
   Future<void> addPolicy(String clientId, Policy policy) async {
-    final policyData = policy.toCollectionObj();
+    final policyData = policy.toMap();
 
     try {
       await _firestore

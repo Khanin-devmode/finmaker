@@ -18,7 +18,6 @@ class NewClientFormFields {
   TextEditingController birthDay = TextEditingController();
   TextEditingController birthMonth = TextEditingController();
   TextEditingController birthYear = TextEditingController();
-  TextEditingController age = TextEditingController();
 
   Client toClientObj() {
     return Client(
@@ -27,7 +26,6 @@ class NewClientFormFields {
       nickName: nickName.text,
       dateOfBirth: DateTime.utc(int.parse(birthYear.text) - 543,
           int.parse(birthMonth.text), int.parse(birthDay.text)),
-      age: int.parse(age.text),
     );
   }
 }

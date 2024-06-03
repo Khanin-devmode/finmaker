@@ -14,7 +14,7 @@ class Policy {
     this.id,
     required this.clientId,
     this.specs = const [],
-    this.specGroups = const [],
+    this.specGroupKeys = const [],
   });
 
   final String policyNumber;
@@ -27,7 +27,7 @@ class Policy {
   final String? id;
   final String clientId;
   final List<Spec> specs;
-  final List<String> specGroups;
+  final List<String> specGroupKeys;
 
   Policy copyWith({
     String? policyNumber,
@@ -40,19 +40,20 @@ class Policy {
     String? id,
     String? clientId,
     List<Spec>? specs,
+    List<String>? specGroupKeys,
   }) {
     return Policy(
-      policyNumber: policyNumber ?? this.policyNumber,
-      policyName: policyName ?? this.policyName,
-      policyCompany: policyCompany ?? this.policyCompany,
-      startDate: startDate ?? this.startDate,
-      endDate: endDate ?? this.endDate,
-      policyCoverage: policyCoverage ?? this.policyCoverage,
-      policyCost: policyCost ?? this.policyCost,
-      id: id ?? this.id,
-      clientId: clientId ?? this.clientId,
-      specs: specs ?? this.specs,
-    );
+        policyNumber: policyNumber ?? this.policyNumber,
+        policyName: policyName ?? this.policyName,
+        policyCompany: policyCompany ?? this.policyCompany,
+        startDate: startDate ?? this.startDate,
+        endDate: endDate ?? this.endDate,
+        policyCoverage: policyCoverage ?? this.policyCoverage,
+        policyCost: policyCost ?? this.policyCost,
+        id: id ?? this.id,
+        clientId: clientId ?? this.clientId,
+        specs: specs ?? this.specs,
+        specGroupKeys: specGroupKeys ?? this.specGroupKeys);
   }
 
   Map<String, dynamic> toMap() {

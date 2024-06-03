@@ -12,6 +12,11 @@ class AuthLoading extends AuthState {}
 
 class AuthAuthenticated extends AuthState {
   final User user;
+  final Map<String, String> specGroupsConfig = {
+    '001': 'Annual Policy Fee',
+    '100': 'Death Coverage',
+    '101': 'Cash Benefits',
+  };
 
   AuthAuthenticated(this.user);
 

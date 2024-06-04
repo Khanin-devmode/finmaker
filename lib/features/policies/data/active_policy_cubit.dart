@@ -13,17 +13,23 @@ class ActivePolicyCubit extends Cubit<Policy?> {
     emit(policy);
   }
 
-  updatePolicy(List<Map<String, dynamic>>? specGroups) async {
+  updatePolicy(List<String> specGroupsKey) async {
     //state.copyWith
 
-    await _firestore
-            .collection('clients')
-            .doc(state?.clientId)
-            .collection('policies')
-            .doc(state!.id)
-        // .update(data)
-        ;
+    final newPolicy = state!.copyWith(specGroupKeys: specGroupsKey);
+    final map = newPolicy.toMap();
 
-    // emit();
+    try {
+      await _firestore
+          .collection('clients')
+          .doc(state?.clientId)
+          .collection('policies')
+          .doc(state!.id)
+          .update(map);
+
+      emit(newPolicy);
+    } catch (e) {
+      print(e);
+    }
   }
 }

@@ -107,14 +107,14 @@ class _PolicyDetailPageState extends State<PolicyDetailPage> {
                                       builder: (context, state) {
                                     final keys =
                                         state!.specGroupsConfig.keys.toList();
-                                    // return (Text(keys.toString()));
+                                    selectedSpecKey ??= keys.first;
                                     return DropdownButton(
-                                        value: selectedSpecKey ?? keys.first,
-                                        items: state.specGroupsConfig.keys
+                                        value: selectedSpecKey,
+                                        items: state.specGroupsConfig.entries
                                             .map(
-                                              (key) => DropdownMenuItem(
-                                                value: key,
-                                                child: Text(key),
+                                              (entry) => DropdownMenuItem(
+                                                value: entry.key,
+                                                child: Text(entry.value),
                                               ),
                                             )
                                             .toList(),

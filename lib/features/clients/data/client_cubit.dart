@@ -21,9 +21,11 @@ class ClientCubit extends Cubit<ClientState> {
         .where('createdBy', isEqualTo: userId)
         .snapshots()
         .listen((snapshot) {
-      final clients = snapshot.docs
-          .map((doc) => Client.fromDocData(uid: doc.id, clientData: doc.data()))
-          .toList();
+      final clients = snapshot.docs.map((doc) {
+        print(doc.data());
+
+        return Client.fromDocData(uid: doc.id, clientData: doc.data());
+      }).toList();
       emit(ClientLoaded(clients));
     }, onError: (error) {
       emit(ClientError(error.toString()));

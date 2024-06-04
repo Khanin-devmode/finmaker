@@ -1,4 +1,5 @@
 import 'package:finmaker/features/auth/presentation/login_page.dart';
+import 'package:finmaker/features/clients/data/active_client_cubit.dart';
 import 'package:finmaker/features/clients/data/client_form_cubit.dart';
 import 'package:finmaker/features/clients/data/client_cubit.dart';
 import 'package:finmaker/features/clients/presentation/client_detail_page.dart';
@@ -34,6 +35,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => AuthCubit()..checkAuthStatus()),
         BlocProvider(create: (context) => ClientFormCubit()),
         BlocProvider(create: (context) => ClientCubit()),
+        BlocProvider(create: (context) => ActiveClientCubit()),
         BlocProvider(create: (context) => PolicyFormCubit()),
         BlocProvider(create: (context) => PolicyCubit()),
         BlocProvider(create: (context) => SpecCubit()),

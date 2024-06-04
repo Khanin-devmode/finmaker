@@ -21,11 +21,15 @@ class NewClientFormFields {
 
   Client toClientObj() {
     return Client(
-      firstName: firstName.text,
-      lastName: lastName.text,
-      nickName: nickName.text,
-      dateOfBirth: DateTime.utc(int.parse(birthYear.text) - 543,
-          int.parse(birthMonth.text), int.parse(birthDay.text)),
-    );
+        firstName: firstName.text,
+        lastName: lastName.text,
+        nickName: nickName.text,
+        dateOfBirth: DateTime.utc(int.parse(birthYear.text) - 543,
+            int.parse(birthMonth.text), int.parse(birthDay.text)),
+        specGroupsConfig: {
+          '001': 'Annual Policy Fee',
+          '100': 'Death Coverage',
+          '101': 'Cash Benefits',
+        });
   }
 }

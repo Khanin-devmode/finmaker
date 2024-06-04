@@ -69,6 +69,7 @@ class _ClientsPageState extends State<ClientsPage> {
                         width: 600,
                         child: BlocBuilder<ClientCubit, ClientState>(
                           builder: (context, state) {
+                            print(state);
                             if (state is ClientLoaded) {
                               return ListView.builder(
                                 itemCount: state.clients.length,

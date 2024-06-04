@@ -1,3 +1,4 @@
+import 'package:finmaker/features/clients/data/active_client_cubit.dart';
 import 'package:finmaker/features/clients/data/client_cubit.dart';
 import 'package:finmaker/features/clients/data/client_model.dart';
 import 'package:finmaker/features/common/widgets/confirm_delete_diaglog.dart';
@@ -14,6 +15,7 @@ class ClientCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
+        context.read<ActiveClientCubit>().selectClient(client);
         context.push('/client-detail/${client.uid}');
       },
       child: Card(

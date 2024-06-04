@@ -1,5 +1,7 @@
 import 'package:finmaker/features/auth/data/auth_cubit.dart';
 import 'package:finmaker/features/auth/data/auth_state.dart';
+import 'package:finmaker/features/clients/data/active_client_cubit.dart';
+import 'package:finmaker/features/clients/data/client_model.dart';
 import 'package:finmaker/features/common/widgets/side_bar.dart';
 import 'package:finmaker/features/policies/data/policy_cubit.dart';
 import 'package:finmaker/features/policies/data/policy_model.dart';
@@ -101,31 +103,27 @@ class _PolicyDetailPageState extends State<PolicyDetailPage> {
                                 children: [
                                   const Expanded(child: Divider()),
                                   // DropdownButton(items: items, onChanged: onChanged)
-                                  BlocBuilder<AuthCubit, AuthState>(
+                                  BlocBuilder<ActiveClientCubit, Client?>(
                                       builder: (context, state) {
-                                    if (state is AuthAuthenticated) {
-                                      final keys =
-                                          state.specGroupsConfig.keys.toList();
-                                      // return (Text(keys.toString()));
-                                      return DropdownButton(
-                                          value: selectedSpecKey ?? keys.first,
-                                          items: state.specGroupsConfig.keys
-                                              .map(
-                                                (key) => DropdownMenuItem(
-                                                  value: key,
-                                                  child: Text(key),
-                                                ),
-                                              )
-                                              .toList(),
-                                          onChanged: (newKey) {
-                                            setState(() {
-                                              selectedSpecKey = newKey;
-                                              print(selectedSpecKey);
-                                            });
+                                    final keys =
+                                        state!.specGroupsConfig.keys.toList();
+                                    // return (Text(keys.toString()));
+                                    return DropdownButton(
+                                        value: selectedSpecKey ?? keys.first,
+                                        items: state.specGroupsConfig.keys
+                                            .map(
+                                              (key) => DropdownMenuItem(
+                                                value: key,
+                                                child: Text(key),
+                                              ),
+                                            )
+                                            .toList(),
+                                        onChanged: (newKey) {
+                                          setState(() {
+                                            selectedSpecKey = newKey;
+                                            print(selectedSpecKey);
                                           });
-                                    } else {
-                                      return const Text('No spec config');
-                                    }
+                                        });
                                   }),
                                   IconButton(
                                     onPressed: () {},

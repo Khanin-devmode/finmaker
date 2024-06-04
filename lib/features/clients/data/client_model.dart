@@ -6,6 +6,7 @@ class Client {
     required this.lastName,
     required this.nickName,
     required this.dateOfBirth,
+    required this.specGroupsConfig,
     this.uid,
     this.creatdBy,
   });
@@ -16,12 +17,15 @@ class Client {
   String? uid;
   String? creatdBy;
 
+  Map<String, dynamic> specGroupsConfig;
+
   Map<String, dynamic> toMap() {
     return {
       'firstName': firstName,
       'lastName': lastName,
       'nickName': nickName,
       'dateOfBirth': dateOfBirth,
+      'specGroupsConfig': specGroupsConfig
     };
   }
 
@@ -42,13 +46,14 @@ class Client {
         DateTime.fromMillisecondsSinceEpoch(timestamp.seconds * 1000);
 
     Client client = Client(
-      firstName: clientData['firstName'],
-      lastName: clientData['lastName'],
-      nickName: clientData['nickName'],
-      dateOfBirth: dateOfBirth,
-      uid: uid,
-      creatdBy: clientData['createdBy'],
-    );
+        firstName: clientData['firstName'],
+        lastName: clientData['lastName'],
+        nickName: clientData['nickName'],
+        dateOfBirth: dateOfBirth,
+        uid: uid,
+        creatdBy: clientData['createdBy'],
+        specGroupsConfig:
+            clientData['specGroupsConfig'] as Map<String, dynamic>);
 
     return client;
   }

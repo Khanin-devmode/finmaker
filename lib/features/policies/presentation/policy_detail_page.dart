@@ -79,14 +79,7 @@ class _PolicyDetailPageState extends State<PolicyDetailPage> {
                   children: [
                     Row(
                       children: [
-                        const Text('Policies'),
-                        IconButton(
-                          onPressed: () {
-                            newPolicyDialogBuilder(
-                                context: context, clientId: widget.policyId);
-                          },
-                          icon: const Icon(Icons.add),
-                        )
+                        const Text('Specs'),
                       ],
                     ),
                     Expanded(
@@ -100,22 +93,100 @@ class _PolicyDetailPageState extends State<PolicyDetailPage> {
                             //     return PolicySpecCard(policy: policy);
                             //   },
                             // );
-                            return Column(
-                              children: [
-                                for (var specGroupKey
-                                    in policyState.specGroupKeys)
-                                  Text(specGroupKey),
-                                Row(
+                            // return Column(
+                            //   children: [
+                            //     for (var specGroupKey
+                            //         in policyState.specGroupKeys)
+                            //       Text(specGroupKey),
+                            //     Row(
+                            //       children: [
+                            //         const Expanded(child: Divider()),
+                            //         BlocBuilder<ActiveClientCubit, Client?>(
+                            //           builder: (context, state) {
+                            //             final keys = state!
+                            //                 .specGroupsConfig.keys
+                            //                 .toList();
+                            //             selectedSpecKey ??= keys.first;
+                            //             return DropdownButton(
+                            //                 value: selectedSpecKey,
+                            //                 items: state
+                            //                     .specGroupsConfig.entries
+                            //                     .map(
+                            //                       (entry) => DropdownMenuItem(
+                            //                         value: entry.key,
+                            //                         child: Text(entry.value),
+                            //                       ),
+                            //                     )
+                            //                     .toList(),
+                            //                 onChanged: (newKey) {
+                            //                   setState(() {
+                            //                     selectedSpecKey = newKey;
+                            //                     print(selectedSpecKey);
+                            //                   });
+                            //                 });
+                            //           },
+                            //         ),
+                            //         IconButton(
+                            //           onPressed: () {
+                            //             List currentSpecGroups =
+                            //                 policyState.specGroupKeys;
+                            //             if (!currentSpecGroups
+                            //                 .contains(selectedSpecKey)) {
+                            //               List<String> newList = [
+                            //                 ...policyState.specGroupKeys,
+                            //                 selectedSpecKey as String
+                            //               ];
+                            //               context
+                            //                   .read<ActivePolicyCubit>()
+                            //                   .updatePolicy(newList);
+                            //             }
+                            //           },
+                            //           icon: const Icon(Icons.add),
+                            //         ),
+                            //         const Expanded(child: Divider())
+                            //       ],
+                            //     )
+                            //   ],
+                            // );
+                            return BlocBuilder<ActiveClientCubit, Client?>(
+                              builder: (context, clientState) {
+                                if (clientState == null) {
+                                  return CircularProgressIndicator(); // Handle loading state if needed
+                                }
+
+                                final keys =
+                                    clientState.specGroupsConfig.keys.toList();
+                                selectedSpecKey ??= keys.first;
+
+                                return Column(
                                   children: [
-                                    const Expanded(child: Divider()),
-                                    BlocBuilder<ActiveClientCubit, Client?>(
-                                        builder: (context, state) {
-                                      final keys =
-                                          state!.specGroupsConfig.keys.toList();
-                                      selectedSpecKey ??= keys.first;
-                                      return DropdownButton(
+                                    for (var specGroupKey
+                                        in policyState.specGroupKeys)
+                                      Container(
+                                        height: 160,
+                                        child: Column(
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Text(clientState
+                                                        .specGroupsConfig[
+                                                    specGroupKey]),
+                                                const Expanded(
+                                                    child: Divider(
+                                                  indent: 16,
+                                                ))
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    Row(
+                                      children: [
+                                        const Expanded(child: Divider()),
+                                        DropdownButton(
                                           value: selectedSpecKey,
-                                          items: state.specGroupsConfig.entries
+                                          items: clientState
+                                              .specGroupsConfig.entries
                                               .map(
                                                 (entry) => DropdownMenuItem(
                                                   value: entry.key,
@@ -128,29 +199,31 @@ class _PolicyDetailPageState extends State<PolicyDetailPage> {
                                               selectedSpecKey = newKey;
                                               print(selectedSpecKey);
                                             });
-                                          });
-                                    }),
-                                    IconButton(
-                                      onPressed: () {
-                                        List currentSpecGroups =
-                                            policyState.specGroupKeys;
-                                        if (!currentSpecGroups
-                                            .contains(selectedSpecKey)) {
-                                          List<String> newList = [
-                                            ...policyState.specGroupKeys,
-                                            selectedSpecKey as String
-                                          ];
-                                          context
-                                              .read<ActivePolicyCubit>()
-                                              .updatePolicy(newList);
-                                        }
-                                      },
-                                      icon: const Icon(Icons.add),
+                                          },
+                                        ),
+                                        IconButton(
+                                          onPressed: () {
+                                            List currentSpecGroups =
+                                                policyState.specGroupKeys;
+                                            if (!currentSpecGroups
+                                                .contains(selectedSpecKey)) {
+                                              List<String> newList = [
+                                                ...policyState.specGroupKeys,
+                                                selectedSpecKey as String
+                                              ];
+                                              context
+                                                  .read<ActivePolicyCubit>()
+                                                  .updatePolicy(newList);
+                                            }
+                                          },
+                                          icon: const Icon(Icons.add),
+                                        ),
+                                        const Expanded(child: Divider()),
+                                      ],
                                     ),
-                                    const Expanded(child: Divider())
                                   ],
-                                )
-                              ],
+                                );
+                              },
                             );
                           } else if (specState is SpecError) {
                             return Center(child: Text(specState.message));

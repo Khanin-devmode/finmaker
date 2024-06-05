@@ -14,8 +14,7 @@ class ActivePolicyCubit extends Cubit<Policy?> {
   }
 
   updatePolicy(List<String> specGroupsKey) async {
-    //state.copyWith
-
+    print('updating policy');
     final newPolicy = state!.copyWith(specGroupKeys: specGroupsKey);
     final map = newPolicy.toMap();
 

@@ -43,20 +43,23 @@ class Policy {
     List<String>? specGroupKeys,
   }) {
     return Policy(
-        policyNumber: policyNumber ?? this.policyNumber,
-        policyName: policyName ?? this.policyName,
-        policyCompany: policyCompany ?? this.policyCompany,
-        startDate: startDate ?? this.startDate,
-        endDate: endDate ?? this.endDate,
-        policyCoverage: policyCoverage ?? this.policyCoverage,
-        policyCost: policyCost ?? this.policyCost,
-        id: id ?? this.id,
-        clientId: clientId ?? this.clientId,
-        specs: specs ?? this.specs,
-        specGroupKeys: specGroupKeys ?? this.specGroupKeys);
+      policyNumber: policyNumber ?? this.policyNumber,
+      policyName: policyName ?? this.policyName,
+      policyCompany: policyCompany ?? this.policyCompany,
+      startDate: startDate ?? this.startDate,
+      endDate: endDate ?? this.endDate,
+      policyCoverage: policyCoverage ?? this.policyCoverage,
+      policyCost: policyCost ?? this.policyCost,
+      id: id ?? this.id,
+      clientId: clientId ?? this.clientId,
+      specs: specs ?? this.specs,
+      specGroupKeys: specGroupKeys ?? this.specGroupKeys,
+    );
   }
 
   Map<String, dynamic> toMap() {
+    print('mapping policy');
+    print(specGroupKeys);
     return {
       'policyNumber': policyNumber,
       'policyName': policyName,
@@ -65,7 +68,8 @@ class Policy {
       'endDate': endDate,
       'policyCoverage': policyCoverage,
       'policyCost': policyCost,
-      'clienId': clientId
+      'clienId': clientId,
+      'specGroupKeys': specGroupKeys,
     };
   }
 
@@ -80,16 +84,16 @@ class Policy {
         DateTime.fromMillisecondsSinceEpoch(endTimestamp.seconds * 1000);
 
     Policy policy = Policy(
-      id: uid,
-      policyName: policyData['policyName'],
-      policyNumber: policyData['policyNumber'],
-      policyCompany: policyData['policyCompany'],
-      policyCoverage: policyData['policyCoverage'],
-      policyCost: policyData['policyCost'],
-      clientId: policyData['clienId'],
-      startDate: startDate,
-      endDate: endDate,
-    );
+        id: uid,
+        policyName: policyData['policyName'],
+        policyNumber: policyData['policyNumber'],
+        policyCompany: policyData['policyCompany'],
+        policyCoverage: policyData['policyCoverage'],
+        policyCost: policyData['policyCost'],
+        clientId: policyData['clienId'],
+        startDate: startDate,
+        endDate: endDate,
+        specGroupKeys: List<String>.from(policyData['specGroupKeys']));
 
     return policy;
   }

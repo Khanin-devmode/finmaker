@@ -86,68 +86,6 @@ class _PolicyDetailPageState extends State<PolicyDetailPage> {
                       child: BlocBuilder<SpecCubit, SpecState>(
                         builder: (context, specState) {
                           if (specState is SpecLoaded) {
-                            // return ListView.builder(
-                            //   itemCount: state.policies.length,
-                            //   itemBuilder: (context, index) {
-                            //     final policy = state.policies[index];
-                            //     return PolicySpecCard(policy: policy);
-                            //   },
-                            // );
-                            // return Column(
-                            //   children: [
-                            //     for (var specGroupKey
-                            //         in policyState.specGroupKeys)
-                            //       Text(specGroupKey),
-                            //     Row(
-                            //       children: [
-                            //         const Expanded(child: Divider()),
-                            //         BlocBuilder<ActiveClientCubit, Client?>(
-                            //           builder: (context, state) {
-                            //             final keys = state!
-                            //                 .specGroupsConfig.keys
-                            //                 .toList();
-                            //             selectedSpecKey ??= keys.first;
-                            //             return DropdownButton(
-                            //                 value: selectedSpecKey,
-                            //                 items: state
-                            //                     .specGroupsConfig.entries
-                            //                     .map(
-                            //                       (entry) => DropdownMenuItem(
-                            //                         value: entry.key,
-                            //                         child: Text(entry.value),
-                            //                       ),
-                            //                     )
-                            //                     .toList(),
-                            //                 onChanged: (newKey) {
-                            //                   setState(() {
-                            //                     selectedSpecKey = newKey;
-                            //                     print(selectedSpecKey);
-                            //                   });
-                            //                 });
-                            //           },
-                            //         ),
-                            //         IconButton(
-                            //           onPressed: () {
-                            //             List currentSpecGroups =
-                            //                 policyState.specGroupKeys;
-                            //             if (!currentSpecGroups
-                            //                 .contains(selectedSpecKey)) {
-                            //               List<String> newList = [
-                            //                 ...policyState.specGroupKeys,
-                            //                 selectedSpecKey as String
-                            //               ];
-                            //               context
-                            //                   .read<ActivePolicyCubit>()
-                            //                   .updatePolicy(newList);
-                            //             }
-                            //           },
-                            //           icon: const Icon(Icons.add),
-                            //         ),
-                            //         const Expanded(child: Divider())
-                            //       ],
-                            //     )
-                            //   ],
-                            // );
                             return BlocBuilder<ActiveClientCubit, Client?>(
                               builder: (context, clientState) {
                                 if (clientState == null) {

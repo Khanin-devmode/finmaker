@@ -99,27 +99,10 @@ class _PolicyDetailPageState extends State<PolicyDetailPage> {
                                   children: [
                                     for (var specGroupKey
                                         in policyState.specGroupKeys)
-                                      SizedBox(
-                                        height: 160,
-                                        child: Column(
-                                          children: [
-                                            Row(
-                                              children: [
-                                                Text(clientState
-                                                        .specGroupsConfig[
-                                                    specGroupKey]),
-                                                IconButton(
-                                                    onPressed: () {},
-                                                    icon:
-                                                        const Icon(Icons.add)),
-                                                const Expanded(
-                                                    child: Divider(
-                                                  indent: 16,
-                                                ))
-                                              ],
-                                            ),
-                                          ],
-                                        ),
+                                      SpecGroupRow(
+                                        specGroupKey: specGroupKey,
+                                        specGroupName: clientState
+                                            .specGroupsConfig[specGroupKey],
                                       ),
                                     Row(
                                       children: [
@@ -183,6 +166,35 @@ class _PolicyDetailPageState extends State<PolicyDetailPage> {
           ],
         );
       }),
+    );
+  }
+}
+
+class SpecGroupRow extends StatelessWidget {
+  const SpecGroupRow(
+      {super.key, required this.specGroupKey, required this.specGroupName});
+
+  final String specGroupKey;
+  final String specGroupName;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 160,
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Text(specGroupName),
+              IconButton(onPressed: () {}, icon: const Icon(Icons.add)),
+              const Expanded(
+                  child: Divider(
+                indent: 16,
+              ))
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

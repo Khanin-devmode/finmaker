@@ -1,13 +1,24 @@
 import 'package:equatable/equatable.dart';
 import 'package:finmaker/features/common/utils/constants.dart';
 
+const Map<String, Type> kSpecCalTypes = {
+  'aa': OneTimeSpec,
+  'ab': PeriodSpec,
+  'ac': CustomSpec,
+};
+
 abstract class Spec extends Equatable {
-  const Spec(
-      {this.uid, required this.specCalType, required this.specGroupCode});
+  const Spec({
+    this.uid,
+    required this.specCalType,
+    required this.specGroupCode,
+    required this.isExpense,
+  });
 
   final String? uid;
   final String specCalType;
   final String specGroupCode;
+  final String isExpense;
 
   @override
   List<Object?> get props => [uid, specCalType];
@@ -38,6 +49,7 @@ class OneTimeSpec extends Spec {
     required super.specGroupCode,
     required this.contractMonths,
     required this.amount,
+    required super.isExpense,
   }) : super(specCalType: 'aa');
 
   final int contractMonths;
@@ -59,6 +71,7 @@ class OneTimeSpec extends Spec {
       specGroupCode: specData[kSpecGroupCode],
       contractMonths: specData[kContractMonths],
       amount: specData[kAmount],
+      isExpense: specData['isExpense'],
     );
   }
 }
@@ -67,6 +80,7 @@ class PeriodSpec extends Spec {
   const PeriodSpec({
     super.uid,
     required super.specGroupCode,
+    required super.isExpense,
   }) : super(specCalType: 'ab');
 
   @override
@@ -81,6 +95,7 @@ class PeriodSpec extends Spec {
     return PeriodSpec(
       uid: uid,
       specGroupCode: specData['specGroupCode'],
+      isExpense: specData['isExpense'],
     );
   }
 }
@@ -89,6 +104,7 @@ class CustomSpec extends Spec {
   const CustomSpec({
     super.uid,
     required super.specGroupCode,
+    required super.isExpense,
   }) : super(specCalType: 'ac');
 
   @override
@@ -100,6 +116,10 @@ class CustomSpec extends Spec {
 
   factory CustomSpec.fromDocData(
       {required String uid, required Map<String, dynamic> specData}) {
-    return CustomSpec(uid: uid, specGroupCode: specData['specGroupCode']);
+    return CustomSpec(
+      uid: uid,
+      specGroupCode: specData['specGroupCode'],
+      isExpense: specData['isExpense'],
+    );
   }
 }

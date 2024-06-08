@@ -5,7 +5,6 @@ import 'package:finmaker/features/policies/data/active_policy_cubit.dart';
 import 'package:finmaker/features/policies/data/policy_cubit.dart';
 import 'package:finmaker/features/policies/data/policy_model.dart';
 import 'package:finmaker/features/policies/data/policy_state.dart';
-import 'package:finmaker/features/policies/presentation/add_policy_dialog.dart';
 import 'package:finmaker/features/specs/data/spec_cubit.dart';
 import 'package:finmaker/features/specs/data/spec_state.dart';
 import 'package:flutter/material.dart';
@@ -77,9 +76,9 @@ class _PolicyDetailPageState extends State<PolicyDetailPage> {
                     const EdgeInsets.symmetric(vertical: 24, horizontal: 12),
                 child: Column(
                   children: [
-                    Row(
+                    const Row(
                       children: [
-                        const Text('Specs'),
+                        Text('Specs'),
                       ],
                     ),
                     Expanded(
@@ -89,7 +88,7 @@ class _PolicyDetailPageState extends State<PolicyDetailPage> {
                             return BlocBuilder<ActiveClientCubit, Client?>(
                               builder: (context, clientState) {
                                 if (clientState == null) {
-                                  return CircularProgressIndicator(); // Handle loading state if needed
+                                  return const CircularProgressIndicator(); // Handle loading state if needed
                                 }
 
                                 final keys =
@@ -100,7 +99,7 @@ class _PolicyDetailPageState extends State<PolicyDetailPage> {
                                   children: [
                                     for (var specGroupKey
                                         in policyState.specGroupKeys)
-                                      Container(
+                                      SizedBox(
                                         height: 160,
                                         child: Column(
                                           children: [
@@ -109,6 +108,10 @@ class _PolicyDetailPageState extends State<PolicyDetailPage> {
                                                 Text(clientState
                                                         .specGroupsConfig[
                                                     specGroupKey]),
+                                                IconButton(
+                                                    onPressed: () {},
+                                                    icon:
+                                                        const Icon(Icons.add)),
                                                 const Expanded(
                                                     child: Divider(
                                                   indent: 16,

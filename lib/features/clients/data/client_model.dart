@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:finmaker/features/common/utils/utils.dart';
 
 class Client {
   Client({
@@ -42,14 +43,12 @@ class Client {
   factory Client.fromDocData(
       {required String uid, required Map<String, dynamic> clientData}) {
     Timestamp timestamp = clientData['dateOfBirth'];
-    DateTime dateOfBirth =
-        DateTime.fromMillisecondsSinceEpoch(timestamp.seconds * 1000);
 
     Client client = Client(
         firstName: clientData['firstName'],
         lastName: clientData['lastName'],
         nickName: clientData['nickName'],
-        dateOfBirth: dateOfBirth,
+        dateOfBirth: timestampToDateTime(timestamp),
         uid: uid,
         creatdBy: clientData['createdBy'],
         specGroupsConfig:

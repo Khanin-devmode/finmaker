@@ -1,47 +1,105 @@
 import 'package:equatable/equatable.dart';
+import 'package:finmaker/features/common/utils/constants.dart';
 
 abstract class Spec extends Equatable {
+  const Spec(
+      {this.uid, required this.specCalType, required this.specGroupCode});
+
+  final String? uid;
+  final String specCalType;
+  final String specGroupCode;
+
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [uid, specCalType];
+
+  Map<String, dynamic> toMap();
+
+  factory Spec.fromDocData({
+    required String uid,
+    required String specCalType,
+    required Map<String, dynamic> specData,
+  }) {
+    switch (specCalType) {
+      case 'aa':
+        return OneTimeSpec.fromDocData(uid: uid, specData: specData);
+      case 'ab':
+        return PeriodSpec.fromDocData(uid: uid, specData: specData);
+      case 'ac':
+        return CustomSpec.fromDocData(uid: uid, specData: specData);
+      default:
+        throw UnimplementedError('Spec type not recognized: $specCalType');
+    }
+  }
 }
 
-class RegularSpec extends Spec {
-  RegularSpec();
+class OneTimeSpec extends Spec {
+  const OneTimeSpec({
+    super.uid,
+    required super.specGroupCode,
+    required this.contractMonths,
+    required this.amount,
+  }) : super(specCalType: 'aa');
 
+  final int contractMonths;
+  final double amount;
+
+  @override
   Map<String, dynamic> toMap() {
-    return {};
+    return {
+      kSpecCalType: specCalType,
+      kContractMonths: contractMonths,
+      kAmount: amount,
+    };
   }
 
-  factory RegularSpec.fromDocData(
+  factory OneTimeSpec.fromDocData(
       {required String uid, required Map<String, dynamic> specData}) {
-    RegularSpec spec = RegularSpec();
+    return OneTimeSpec(
+      uid: uid,
+      specGroupCode: specData[kSpecGroupCode],
+      contractMonths: specData[kContractMonths],
+      amount: specData[kAmount],
+    );
+  }
+}
 
-    return spec;
+class PeriodSpec extends Spec {
+  const PeriodSpec({
+    super.uid,
+    required super.specGroupCode,
+  }) : super(specCalType: 'ab');
+
+  @override
+  Map<String, dynamic> toMap() {
+    return {
+      kSpecCalType: specCalType,
+    };
+  }
+
+  factory PeriodSpec.fromDocData(
+      {required String uid, required Map<String, dynamic> specData}) {
+    return PeriodSpec(
+      uid: uid,
+      specGroupCode: specData['specGroupCode'],
+    );
   }
 }
 
 class CustomSpec extends Spec {
-  CustomSpec();
+  const CustomSpec({
+    super.uid,
+    required super.specGroupCode,
+  }) : super(specCalType: 'ac');
 
+  @override
   Map<String, dynamic> toMap() {
-    return {};
+    return {
+      'specCalType': specCalType,
+    };
   }
 
   factory CustomSpec.fromDocData(
       {required String uid, required Map<String, dynamic> specData}) {
-    CustomSpec spec = CustomSpec();
-
-    return spec;
+    return CustomSpec(uid: uid, specGroupCode: specData['specGroupCode']);
   }
 }
-
-const specCode = {
-  'aa': RegularSpec,
-  'ab': CustomSpec,
-};
-
-const specGroup = {
-  //e.g. Cash Income, Expense, CI coverage, default
-  '101': 'Yearly Income',
-  '001': 'Yearly Expense'
-};

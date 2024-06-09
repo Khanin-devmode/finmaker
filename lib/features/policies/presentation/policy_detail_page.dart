@@ -7,6 +7,7 @@ import 'package:finmaker/features/policies/data/policy_model.dart';
 import 'package:finmaker/features/policies/data/policy_state.dart';
 import 'package:finmaker/features/specs/data/spec_cubit.dart';
 import 'package:finmaker/features/specs/data/spec_state.dart';
+import 'package:finmaker/features/specs/presentation/add_spec_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -186,7 +187,11 @@ class SpecGroupRow extends StatelessWidget {
           Row(
             children: [
               Text(specGroupName),
-              IconButton(onPressed: () {}, icon: const Icon(Icons.add)),
+              IconButton(
+                  onPressed: () {
+                    newSpecDialog(context);
+                  },
+                  icon: const Icon(Icons.add)),
               const Expanded(
                   child: Divider(
                 indent: 16,

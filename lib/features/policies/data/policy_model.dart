@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:finmaker/features/common/utils/utils.dart';
 import 'package:finmaker/features/specs/data/spec_model.dart';
 import 'package:flutter/material.dart';
 
@@ -76,24 +77,20 @@ class Policy {
   factory Policy.fromDocData(
       {required String uid, required Map<String, dynamic> policyData}) {
     Timestamp startTimestamp = policyData['startDate'];
-    DateTime startDate =
-        DateTime.fromMillisecondsSinceEpoch(startTimestamp.seconds * 1000);
-
-    Timestamp endTimestamp = policyData['startDate'];
-    DateTime endDate =
-        DateTime.fromMillisecondsSinceEpoch(endTimestamp.seconds * 1000);
+    Timestamp endTimestamp = policyData['endDate'];
 
     Policy policy = Policy(
-        id: uid,
-        policyName: policyData['policyName'],
-        policyNumber: policyData['policyNumber'],
-        policyCompany: policyData['policyCompany'],
-        policyCoverage: policyData['policyCoverage'],
-        policyCost: policyData['policyCost'],
-        clientId: policyData['clienId'],
-        startDate: startDate,
-        endDate: endDate,
-        specGroupKeys: List<String>.from(policyData['specGroupKeys']));
+      id: uid,
+      policyName: policyData['policyName'] as String,
+      policyNumber: policyData['policyNumber'] as String,
+      policyCompany: policyData['policyCompany'] as String,
+      policyCoverage: convertToDouble(policyData['policyCoverage']),
+      policyCost: convertToDouble(policyData['policyCost']),
+      clientId: policyData['clienId'],
+      startDate: timestampToDateTime(startTimestamp),
+      endDate: timestampToDateTime(endTimestamp),
+      specGroupKeys: List<String>.from(policyData['specGroupKeys']),
+    );
 
     return policy;
   }

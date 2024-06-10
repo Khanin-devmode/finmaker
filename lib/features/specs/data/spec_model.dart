@@ -21,9 +21,16 @@ abstract class Spec extends Equatable {
   final String isExpense;
 
   @override
-  List<Object?> get props => [uid, specCalType];
+  List<Object?> get props => [uid, specCalType, specGroupCode, isExpense];
 
-  Map<String, dynamic> toMap();
+  Map<String, dynamic> toMap() {
+    return {
+      'uid': uid,
+      'specCalType': specCalType,
+      'specGroupCode': specGroupCode,
+      'isExpense': isExpense,
+    };
+  }
 
   factory Spec.fromDocData({
     required String uid,
@@ -47,9 +54,9 @@ class OneTimeSpec extends Spec {
   const OneTimeSpec({
     super.uid,
     required super.specGroupCode,
+    required super.isExpense,
     required this.contractMonths,
     required this.amount,
-    required super.isExpense,
   }) : super(specCalType: 'aa');
 
   final int contractMonths;
@@ -58,14 +65,16 @@ class OneTimeSpec extends Spec {
   @override
   Map<String, dynamic> toMap() {
     return {
-      kSpecCalType: specCalType,
+      ...super.toMap(),
       kContractMonths: contractMonths,
       kAmount: amount,
     };
   }
 
-  factory OneTimeSpec.fromDocData(
-      {required String uid, required Map<String, dynamic> specData}) {
+  factory OneTimeSpec.fromDocData({
+    required String uid,
+    required Map<String, dynamic> specData,
+  }) {
     return OneTimeSpec(
       uid: uid,
       specGroupCode: specData[kSpecGroupCode],
@@ -86,15 +95,17 @@ class PeriodSpec extends Spec {
   @override
   Map<String, dynamic> toMap() {
     return {
-      kSpecCalType: specCalType,
+      ...super.toMap(),
     };
   }
 
-  factory PeriodSpec.fromDocData(
-      {required String uid, required Map<String, dynamic> specData}) {
+  factory PeriodSpec.fromDocData({
+    required String uid,
+    required Map<String, dynamic> specData,
+  }) {
     return PeriodSpec(
       uid: uid,
-      specGroupCode: specData['specGroupCode'],
+      specGroupCode: specData[kSpecGroupCode],
       isExpense: specData['isExpense'],
     );
   }
@@ -110,15 +121,17 @@ class CustomSpec extends Spec {
   @override
   Map<String, dynamic> toMap() {
     return {
-      'specCalType': specCalType,
+      ...super.toMap(),
     };
   }
 
-  factory CustomSpec.fromDocData(
-      {required String uid, required Map<String, dynamic> specData}) {
+  factory CustomSpec.fromDocData({
+    required String uid,
+    required Map<String, dynamic> specData,
+  }) {
     return CustomSpec(
       uid: uid,
-      specGroupCode: specData['specGroupCode'],
+      specGroupCode: specData[kSpecGroupCode],
       isExpense: specData['isExpense'],
     );
   }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'package:pattern_formatter/pattern_formatter.dart';
 
 Future<void> newSpecDialog(BuildContext context) {
   return showDialog<void>(

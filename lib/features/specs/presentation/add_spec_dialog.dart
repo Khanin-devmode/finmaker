@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:pattern_formatter/pattern_formatter.dart';
 
 Future<void> newSpecDialog(BuildContext context) {
   return showDialog<void>(
@@ -73,7 +74,7 @@ class _OneTimeSpecFormState extends State<OneTimeSpecForm> {
   final _periodController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
-  bool isExpense = false;
+  bool? _selectedValue = false;
 
   @override
   Widget build(BuildContext context) {
@@ -101,7 +102,9 @@ class _OneTimeSpecFormState extends State<OneTimeSpecForm> {
           //Period
           TextFormField(
             controller: _periodController,
-            decoration: InputDecoration(label: Text('End of Policy Year')),
+            decoration: const InputDecoration(
+              label: Text('End of Policy Year'),
+            ),
             keyboardType: TextInputType.number,
             inputFormatters: [FilteringTextInputFormatter.digitsOnly],
             validator: (value) {
@@ -118,19 +121,57 @@ class _OneTimeSpecFormState extends State<OneTimeSpecForm> {
               return null;
             },
           ),
-          Row(
+          // Row(
+          //   children: [
+          //     Checkbox(
+          //       value: isExpense,
+          //       onChanged: (value) {
+          //         setState(() {
+          //           isExpense = value as bool;
+          //         });
+          //       },
+          //     ),
+          //     Text('Is an expense')
+          //   ],
+          // ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Checkbox(
-                value: isExpense,
-                onChanged: (value) {
-                  setState(() {
-                    isExpense = value as bool;
-                  });
-                },
+              Text(
+                'Select a value:',
+                style: TextStyle(fontSize: 16),
               ),
-              Text('Is an expense')
+              Row(
+                children: [
+                  Expanded(
+                    child: RadioListTile<bool>(
+                      title: const Text('True'),
+                      value: true,
+                      groupValue: _selectedValue,
+                      onChanged: (bool? value) {
+                        setState(() {
+                          _selectedValue = value;
+                        });
+                      },
+                    ),
+                  ),
+                  Expanded(
+                    child: RadioListTile<bool>(
+                      title: const Text('False'),
+                      value: false,
+                      groupValue: _selectedValue,
+                      onChanged: (bool? value) {
+                        setState(() {
+                          _selectedValue = value;
+                        });
+                      },
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
+
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -158,5 +199,72 @@ class _OneTimeSpecFormState extends State<OneTimeSpecForm> {
     _amountController.dispose();
     _periodController.dispose();
     super.dispose();
+  }
+}
+
+class BooleanRadioForm extends StatefulWidget {
+  @override
+  _BooleanRadioFormState createState() => _BooleanRadioFormState();
+}
+
+class _BooleanRadioFormState extends State<BooleanRadioForm> {
+  bool? _selectedValue;
+
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Select a value:',
+            style: TextStyle(fontSize: 16),
+          ),
+          Row(
+            children: [
+              Expanded(
+                child: RadioListTile<bool>(
+                  title: const Text('True'),
+                  value: true,
+                  groupValue: _selectedValue,
+                  onChanged: (bool? value) {
+                    setState(() {
+                      _selectedValue = value;
+                    });
+                  },
+                ),
+              ),
+              Expanded(
+                child: RadioListTile<bool>(
+                  title: const Text('False'),
+                  value: false,
+                  groupValue: _selectedValue,
+                  onChanged: (bool? value) {
+                    setState(() {
+                      _selectedValue = value;
+                    });
+                  },
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 16.0),
+          ElevatedButton(
+            onPressed: () {
+              if (_selectedValue == null) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Please select a value')),
+                );
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Selected: $_selectedValue')),
+                );
+              }
+            },
+            child: Text('Submit'),
+          ),
+        ],
+      ),
+    );
   }
 }

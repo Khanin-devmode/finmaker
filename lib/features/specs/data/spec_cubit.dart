@@ -40,9 +40,10 @@ class SpecCubit extends Cubit<SpecState> {
     });
   }
 
-  Future<void> addPolicySpec(
-      String clientId, String policyId, Spec spec) async {
+  Future<void> addSpec(String clientId, String policyId, Spec spec) async {
     late Map<String, dynamic> specData;
+
+    print('adding spec');
 
     if (spec is OneTimeSpec) {
       specData = spec.toMap();
@@ -59,6 +60,8 @@ class SpecCubit extends Cubit<SpecState> {
     } catch (e) {
       emit(SpecError(e.toString()));
     }
+
+    print('spec added');
   }
 
   // void deletePolicySpec(String clientId) async {

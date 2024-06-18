@@ -13,22 +13,24 @@ abstract class Spec extends Equatable {
     required this.specCalType,
     required this.specGroupCode,
     required this.isExpense,
+    this.description,
   });
 
   final String? uid;
   final String specCalType;
   final String specGroupCode;
-  final String isExpense;
+  final bool isExpense;
+  final String? description;
 
   @override
   List<Object?> get props => [uid, specCalType, specGroupCode, isExpense];
 
   Map<String, dynamic> toMap() {
     return {
-      'uid': uid,
       'specCalType': specCalType,
       'specGroupCode': specGroupCode,
       'isExpense': isExpense,
+      'description': description,
     };
   }
 
@@ -53,6 +55,7 @@ abstract class Spec extends Equatable {
 class OneTimeSpec extends Spec {
   const OneTimeSpec({
     super.uid,
+    super.description,
     required super.specGroupCode,
     required super.isExpense,
     required this.contractMonths,

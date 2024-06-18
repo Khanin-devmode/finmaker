@@ -189,7 +189,7 @@ class SpecGroupRow extends StatelessWidget {
               Text(specGroupName),
               IconButton(
                   onPressed: () {
-                    newSpecDialog(context);
+                    newSpecDialog(context, specGroupKey);
                   },
                   icon: const Icon(Icons.add)),
               const Expanded(

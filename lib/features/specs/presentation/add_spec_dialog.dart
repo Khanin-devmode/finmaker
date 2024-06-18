@@ -1,20 +1,26 @@
+import 'package:finmaker/features/policies/data/active_policy_cubit.dart';
+import 'package:finmaker/features/policies/data/policy_model.dart';
+import 'package:finmaker/features/specs/data/spec_cubit.dart';
+import 'package:finmaker/features/specs/data/spec_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:intl/intl.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-Future<void> newSpecDialog(BuildContext context) {
+Future<void> newSpecDialog(BuildContext context, String activeSpecCode) {
   return showDialog<void>(
     context: context,
     builder: (BuildContext context) {
-      return AddSpecDialog();
+      return AddSpecDialog(
+        activeSpecCode: activeSpecCode,
+      );
     },
   );
 }
 
 class AddSpecDialog extends StatelessWidget {
-  AddSpecDialog({
-    super.key,
-  });
+  AddSpecDialog({super.key, required this.activeSpecCode});
+
+  final String activeSpecCode;
 
   final _formKey = GlobalKey<FormState>();
   final currentYear = DateTime.now().year + 543;
@@ -23,7 +29,7 @@ class AddSpecDialog extends StatelessWidget {
   Widget build(
     BuildContext context,
   ) {
-    return const AlertDialog(
+    return AlertDialog(
       content: DefaultTabController(
         length: 3,
         child: SizedBox(
@@ -42,17 +48,24 @@ class AddSpecDialog extends StatelessWidget {
                   text: 'custom',
                 )
               ]),
-              Expanded(
-                child: TabBarView(children: [
-                  OneTimeSpecForm(),
-                  const Center(
-                    child: Text('period'),
-                  ),
-                  const Center(
-                    child: Text('custom'),
-                  ),
-                ]),
-              )
+              BlocBuilder<ActivePolicyCubit, Policy?>(
+                  builder: (context, state) {
+                final activePolicy = state as Policy;
+                return Expanded(
+                  child: TabBarView(children: [
+                    OneTimeSpecForm(
+                      activeSpecCode: activeSpecCode,
+                      activePolicy: activePolicy,
+                    ),
+                    const Center(
+                      child: Text('period'),
+                    ),
+                    const Center(
+                      child: Text('custom'),
+                    ),
+                  ]),
+                );
+              })
             ],
           ),
         ),
@@ -62,7 +75,11 @@ class AddSpecDialog extends StatelessWidget {
 }
 
 class OneTimeSpecForm extends StatefulWidget {
-  const OneTimeSpecForm({super.key});
+  const OneTimeSpecForm(
+      {super.key, required this.activeSpecCode, required this.activePolicy});
+
+  final Policy activePolicy;
+  final String activeSpecCode;
 
   @override
   State<OneTimeSpecForm> createState() => _OneTimeSpecFormState();
@@ -73,7 +90,7 @@ class _OneTimeSpecFormState extends State<OneTimeSpecForm> {
   final _periodController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
-  bool? _selectedValue = false;
+  bool _isExpenseValue = false;
 
   @override
   Widget build(BuildContext context) {
@@ -120,48 +137,36 @@ class _OneTimeSpecFormState extends State<OneTimeSpecForm> {
               return null;
             },
           ),
-          // Row(
-          //   children: [
-          //     Checkbox(
-          //       value: isExpense,
-          //       onChanged: (value) {
-          //         setState(() {
-          //           isExpense = value as bool;
-          //         });
-          //       },
-          //     ),
-          //     Text('Is an expense')
-          //   ],
-          // ),
+
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Select a value:',
+                'ประเภท:',
                 style: TextStyle(fontSize: 16),
               ),
               Row(
                 children: [
                   Expanded(
                     child: RadioListTile<bool>(
-                      title: const Text('True'),
+                      title: const Text('รายจ่าย'),
                       value: true,
-                      groupValue: _selectedValue,
+                      groupValue: _isExpenseValue,
                       onChanged: (bool? value) {
                         setState(() {
-                          _selectedValue = value;
+                          _isExpenseValue = value as bool;
                         });
                       },
                     ),
                   ),
                   Expanded(
                     child: RadioListTile<bool>(
-                      title: const Text('False'),
+                      title: const Text('รายรับ/ผลประโยชน์'),
                       value: false,
-                      groupValue: _selectedValue,
+                      groupValue: _isExpenseValue,
                       onChanged: (bool? value) {
                         setState(() {
-                          _selectedValue = value;
+                          _isExpenseValue = value as bool;
                         });
                       },
                     ),
@@ -182,7 +187,26 @@ class _OneTimeSpecFormState extends State<OneTimeSpecForm> {
               const SizedBox(width: 8),
               ElevatedButton(
                   onPressed: () {
-                    _formKey.currentState!.validate();
+                    if (_formKey.currentState!.validate()) {
+                      final double amount =
+                          double.tryParse(_amountController.text) ?? 0.0;
+                      final int contractYears =
+                          int.tryParse(_periodController.text) ?? 0;
+                      final int contractMonths = contractYears * 12;
+
+                      final spec = OneTimeSpec(
+                        specGroupCode: widget.activeSpecCode,
+                        isExpense: _isExpenseValue,
+                        contractMonths: contractMonths,
+                        amount: amount,
+                      );
+                      context.read<SpecCubit>().addSpec(
+                            widget.activePolicy.clientId,
+                            widget.activePolicy.id as String,
+                            spec,
+                          );
+                      Navigator.pop(context);
+                    }
                   },
                   child: Text('Add Spec'))
             ],
@@ -198,72 +222,5 @@ class _OneTimeSpecFormState extends State<OneTimeSpecForm> {
     _amountController.dispose();
     _periodController.dispose();
     super.dispose();
-  }
-}
-
-class BooleanRadioForm extends StatefulWidget {
-  @override
-  _BooleanRadioFormState createState() => _BooleanRadioFormState();
-}
-
-class _BooleanRadioFormState extends State<BooleanRadioForm> {
-  bool? _selectedValue;
-
-  @override
-  Widget build(BuildContext context) {
-    return Form(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Select a value:',
-            style: TextStyle(fontSize: 16),
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: RadioListTile<bool>(
-                  title: const Text('True'),
-                  value: true,
-                  groupValue: _selectedValue,
-                  onChanged: (bool? value) {
-                    setState(() {
-                      _selectedValue = value;
-                    });
-                  },
-                ),
-              ),
-              Expanded(
-                child: RadioListTile<bool>(
-                  title: const Text('False'),
-                  value: false,
-                  groupValue: _selectedValue,
-                  onChanged: (bool? value) {
-                    setState(() {
-                      _selectedValue = value;
-                    });
-                  },
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: 16.0),
-          ElevatedButton(
-            onPressed: () {
-              if (_selectedValue == null) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Please select a value')),
-                );
-              } else {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Selected: $_selectedValue')),
-                );
-              }
-            },
-            child: Text('Submit'),
-          ),
-        ],
-      ),
-    );
   }
 }

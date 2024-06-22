@@ -213,12 +213,46 @@ class SpecGroupRow extends StatelessWidget {
           Row(
             children: List.generate(specs.length, (i) {
               final spec = specs[i];
-              return Text(
-                  '${spec.runtimeType} ${spec.specGroupCode} ${spec.specCalType}');
+              return SpecCard(spec: spec);
             }),
           )
         ],
       ),
     );
+  }
+}
+
+class SpecCard extends StatelessWidget {
+  const SpecCard({
+    super.key,
+    required this.spec,
+  });
+
+  final Spec spec;
+
+  @override
+  Widget build(BuildContext context) {
+    if (spec is OneTimeSpec) {
+      final oneTimeSpec = spec as OneTimeSpec;
+      return SizedBox(
+        width: 100,
+        height: 120,
+        child: Card(
+          child: Column(
+            children: [
+              Text('${oneTimeSpec.specGroupCode} ${oneTimeSpec.specCalType}'),
+              Expanded(
+                child: Center(
+                  child: Text(oneTimeSpec.amount.toString()),
+                ),
+              ),
+              Text(oneTimeSpec.contractMonths.toString()),
+            ],
+          ),
+        ),
+      );
+    }
+
+    return const SizedBox();
   }
 }

@@ -1,6 +1,5 @@
 import 'package:finmaker/features/auth/data/auth_cubit.dart';
 import 'package:finmaker/features/auth/data/auth_state.dart';
-import 'package:finmaker/features/clients/data/client_model.dart';
 import 'package:finmaker/features/clients/data/client_state.dart';
 import 'package:finmaker/features/clients/data/client_cubit.dart';
 import 'package:finmaker/features/clients/presentation/widgets/add_client_dialog.dart';

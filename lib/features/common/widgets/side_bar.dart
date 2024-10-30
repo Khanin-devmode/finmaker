@@ -11,7 +11,7 @@ class SideBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 60,
-      padding: EdgeInsets.only(top: 24, bottom: 8),
+      padding: const EdgeInsets.only(top: 24, bottom: 8),
       color: Colors.grey,
       child: Column(
         children: [

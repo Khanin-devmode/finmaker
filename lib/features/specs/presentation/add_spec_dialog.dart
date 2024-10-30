@@ -141,7 +141,7 @@ class _OneTimeSpecFormState extends State<OneTimeSpecForm> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              const Text(
                 'ประเภท:',
                 style: TextStyle(fontSize: 16),
               ),
@@ -208,7 +208,7 @@ class _OneTimeSpecFormState extends State<OneTimeSpecForm> {
                       Navigator.pop(context);
                     }
                   },
-                  child: Text('Add Spec'))
+                  child: const Text('Add Spec'))
             ],
           ),
         ],

@@ -17,7 +17,7 @@ class ActiveClientCubit extends Cubit<Client?> {
   updatePolicy(List<Map<String, dynamic>>? specGroups) async {
     //state.copyWith
 
-    await _firestore.collection('clients').doc(state?.uid)
+    _firestore.collection('clients').doc(state?.uid)
 
         // .update(data)
         ;

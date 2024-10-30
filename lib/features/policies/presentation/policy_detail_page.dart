@@ -6,6 +6,7 @@ import 'package:finmaker/features/policies/data/policy_cubit.dart';
 import 'package:finmaker/features/policies/data/policy_model.dart';
 import 'package:finmaker/features/policies/data/policy_state.dart';
 import 'package:finmaker/features/specs/data/spec_cubit.dart';
+import 'package:finmaker/features/specs/data/spec_model.dart';
 import 'package:finmaker/features/specs/data/spec_state.dart';
 import 'package:finmaker/features/specs/presentation/add_spec_dialog.dart';
 import 'package:flutter/material.dart';
@@ -86,6 +87,8 @@ class _PolicyDetailPageState extends State<PolicyDetailPage> {
                       child: BlocBuilder<SpecCubit, SpecState>(
                         builder: (context, specState) {
                           if (specState is SpecLoaded) {
+                            final allSpec = specState.specs;
+
                             return BlocBuilder<ActiveClientCubit, Client?>(
                               builder: (context, clientState) {
                                 if (clientState == null) {
@@ -101,10 +104,14 @@ class _PolicyDetailPageState extends State<PolicyDetailPage> {
                                     for (var specGroupKey
                                         in policyState.specGroupKeys)
                                       SpecGroupRow(
-                                        specGroupKey: specGroupKey,
-                                        specGroupName: clientState
-                                            .specGroupsConfig[specGroupKey],
-                                      ),
+                                          specGroupKey: specGroupKey,
+                                          specGroupName: clientState
+                                              .specGroupsConfig[specGroupKey],
+                                          specs: allSpec
+                                              .where((spec) =>
+                                                  spec.specGroupCode ==
+                                                  specGroupKey)
+                                              .toList()),
                                     Row(
                                       children: [
                                         const Expanded(child: Divider()),
@@ -172,11 +179,16 @@ class _PolicyDetailPageState extends State<PolicyDetailPage> {
 }
 
 class SpecGroupRow extends StatelessWidget {
-  const SpecGroupRow(
-      {super.key, required this.specGroupKey, required this.specGroupName});
+  const SpecGroupRow({
+    super.key,
+    required this.specGroupKey,
+    required this.specGroupName,
+    required this.specs,
+  });
 
   final String specGroupKey;
   final String specGroupName;
+  final List<Spec> specs;
 
   @override
   Widget build(BuildContext context) {
@@ -198,8 +210,49 @@ class SpecGroupRow extends StatelessWidget {
               ))
             ],
           ),
+          Row(
+            children: List.generate(specs.length, (i) {
+              final spec = specs[i];
+              return SpecCard(spec: spec);
+            }),
+          )
         ],
       ),
     );
+  }
+}
+
+class SpecCard extends StatelessWidget {
+  const SpecCard({
+    super.key,
+    required this.spec,
+  });
+
+  final Spec spec;
+
+  @override
+  Widget build(BuildContext context) {
+    if (spec is OneTimeSpec) {
+      final oneTimeSpec = spec as OneTimeSpec;
+      return SizedBox(
+        width: 100,
+        height: 120,
+        child: Card(
+          child: Column(
+            children: [
+              Text('${oneTimeSpec.specGroupCode} ${oneTimeSpec.specCalType}'),
+              Expanded(
+                child: Center(
+                  child: Text(oneTimeSpec.amount.toString()),
+                ),
+              ),
+              Text(oneTimeSpec.contractMonths.toString()),
+            ],
+          ),
+        ),
+      );
+    }
+
+    return const SizedBox();
   }
 }

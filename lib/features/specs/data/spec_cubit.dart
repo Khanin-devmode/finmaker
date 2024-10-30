@@ -32,7 +32,12 @@ class SpecCubit extends Cubit<SpecState> {
         .snapshots()
         .listen((snapshot) {
       final specs = snapshot.docs.map((doc) {
-        return OneTimeSpec.fromDocData(uid: doc.id, specData: doc.data());
+        final data = doc.data();
+
+        return Spec.fromDocData(
+            uid: doc.id,
+            specData: data,
+            specCalType: data['specCalType'] as String);
       }).toList();
       emit(SpecLoaded(specs));
     }, onError: (error) {

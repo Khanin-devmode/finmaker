@@ -1,12 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:finmaker/features/common/utils/constants.dart';
 
-const Map<String, Type> kSpecCalTypes = {
-  'aa': OneTimeSpec,
-  'ab': PeriodSpec,
-  'ac': CustomSpec,
-};
-
 abstract class Spec extends Equatable {
   const Spec({
     this.uid,
@@ -51,6 +45,12 @@ abstract class Spec extends Equatable {
     }
   }
 }
+
+const Map<String, Type> kSpecCalTypes = {
+  'aa': OneTimeSpec,
+  'ab': PeriodSpec,
+  'ac': CustomSpec,
+};
 
 class OneTimeSpec extends Spec {
   const OneTimeSpec({
